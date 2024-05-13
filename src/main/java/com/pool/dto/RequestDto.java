@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @Builder
 
-public class EmailAndPassword {
+public class RequestDto {
 
     private String username;
     private String password;
