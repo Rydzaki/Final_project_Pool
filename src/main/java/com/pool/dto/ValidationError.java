@@ -10,8 +10,10 @@ import lombok.ToString;
 @ToString
 @Builder
 
-public class ResponseDto {
+public class ValidationError {
 
+    private String field;
+    private String rejectedValue;
     private String message;
 
 
