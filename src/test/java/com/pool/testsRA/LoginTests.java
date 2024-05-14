@@ -31,5 +31,65 @@ public class LoginTests extends TestBase {
 
         System.out.println(dto.getMessage());
     }
+
+    @Test 
+    public void loginWithWrongEmail(){
+        ResponseDto error = given()
+                .contentType(ContentType.URLENC)
+                .formParam("username", "error@mail.com")
+                .formParam("password", auth.getPassword())
+                .when()
+                .post("/login")
+                .then()
+                .assertThat().statusCode(401)
+                .extract().response().as(ResponseDto.class);
+
+        System.out.println(error.getMessage());
+    }
+
+    @Test
+    public void loginWithWrongPassword(){
+        ResponseDto error = given()
+                .contentType(ContentType.URLENC)
+                .formParam("username", auth.getUsername())
+                .formParam("password", "Pass12345")
+                .when()
+                .post("/login")
+                .then()
+                .assertThat().statusCode(401)
+                .extract().response().as(ResponseDto.class);
+
+        System.out.println(error.getMessage());
+    }
+
+    @Test
+    public void loginWithoutEmail(){
+        ResponseDto error = given()
+                .contentType(ContentType.URLENC)
+                .formParam("username", "")
+                .formParam("password", auth.getPassword())
+                .when()
+                .post("/login")
+                .then()
+                .assertThat().statusCode(401)
+                .extract().response().as(ResponseDto.class);
+
+        System.out.println(error.getMessage());
+    }
+    @Test
+    public void loginWithoutPassword(){
+        ResponseDto error = given()
+                .contentType(ContentType.URLENC)
+                .formParam("username", auth.getUsername())
+                .formParam("password", "")
+                .when()
+                .post("/login")
+                .then()
+                .assertThat().statusCode(401)
+                .extract().response().as(ResponseDto.class);
+
+        System.out.println(error.getMessage());
+    }
+    
     
 }
