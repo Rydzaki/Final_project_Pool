@@ -11,7 +11,6 @@ public class TestBase {
     
     @BeforeMethod
     public void init(){
-        //RestAssured.baseURI = "http://localhost:8080/swagger-ui/index.html#";
         RestAssured.baseURI = "http://localhost:8080";
         RestAssured.basePath = "/api";
     }
