@@ -1,2 +1,6 @@
-package com.pool.testsSE.tests;public class TestBase {
+package com.pool.testsSE.tests;
+
+public class TestBaseSE {
+
+
 }
