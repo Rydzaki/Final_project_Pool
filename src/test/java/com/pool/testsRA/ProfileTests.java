@@ -77,7 +77,7 @@ public class ProfileTests extends TestBase {
         ResponseDto dto = given()
                /* .header("username", EMAIL)
                 .header("password", PASSWORD)*/
-            .header("message", "D193BA76C1FC89996D10746FEF3EE9D8")
+            /*.header("message", "D193BA76C1FC89996D10746FEF3EE9D8")*/
                 .get("/users/profile")
                 .then()
                 .assertThat().statusCode(200)
