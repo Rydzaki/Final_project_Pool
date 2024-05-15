@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.pool.testsRA.LoginTests" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-05-15T07:22:30" hostname="SOUL" time="1.701">
+  <properties/>
+  <testcase name="loginSuccessTest" classname="com.pool.testsRA.LoginTests" time="1.156"/>
+  <testcase name="loginWithWrongEmail" classname="com.pool.testsRA.LoginTests" time="0.138"/>
+  <testcase name="loginWithWrongPassword" classname="com.pool.testsRA.LoginTests" time="0.142"/>
+  <testcase name="loginWithoutEmail" classname="com.pool.testsRA.LoginTests" time="0.132"/>
+  <testcase name="loginWithoutPassword" classname="com.pool.testsRA.LoginTests" time="0.125"/>
+  <system-out><![CDATA[Login successful
+Incorrect password or username
+Incorrect password or username
+Incorrect password or username
+Incorrect password or username
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -10,7 +10,7 @@ import static io.restassured.RestAssured.given;
 
 public class RegisterTests extends TestBase {
 
-    String n = "1";
+    String n = "2";
 
     NewUserDto register = NewUserDto.builder()
             .firstName("Bruce")
