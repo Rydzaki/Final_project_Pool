@@ -34,7 +34,7 @@ public class ProfileTests extends TestBase {
                 .assertThat().statusCode(200)
                 .extract().response().as(UserDto.class);
 
-       // Создание Gson с отступами и новыми строками
+       // Создание Json с отступами и новыми строками
        printJson(dto);
    }
 
