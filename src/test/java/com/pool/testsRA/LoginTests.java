@@ -8,19 +8,22 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
+
+
 public class LoginTests extends TestBase {
-    
-    RequestDto auth = RequestDto.builder()
-            .username(EMAIL)
-            .password(PASSWORD)
-            .build();
-    
+
+//    RequestDto auth = RequestDto.builder()
+//            .username(EMAIL)
+//            .password(PASSWORD)
+//            .build();
+//
+
     @Test
     public void loginSuccessTest(){
         ResponseDto dto = given()
                 .contentType(ContentType.URLENC)
-                .formParam("username", auth.getUsername())
-                .formParam("password", auth.getPassword())
+                .formParam("username", EMAIL)
+                .formParam("password", PASSWORD)
                 /*.body(auth)*/
                 .when()
                 .post("/login")
@@ -36,8 +39,8 @@ public class LoginTests extends TestBase {
     public void loginWithWrongEmail(){
         ResponseDto error = given()
                 .contentType(ContentType.URLENC)
-                .formParam("username", "error@mail.com")
-                .formParam("password", auth.getPassword())
+                .formParam("username", EMAIL_INVALID)
+                .formParam("password", PASSWORD)
                 .when()
                 .post("/login")
                 .then()
@@ -51,8 +54,8 @@ public class LoginTests extends TestBase {
     public void loginWithWrongPassword(){
         ResponseDto error = given()
                 .contentType(ContentType.URLENC)
-                .formParam("username", auth.getUsername())
-                .formParam("password", "Pass12345")
+                .formParam("username", EMAIL)
+                .formParam("password", PASSWORD_INVALID)
                 .when()
                 .post("/login")
                 .then()
@@ -67,7 +70,7 @@ public class LoginTests extends TestBase {
         ResponseDto error = given()
                 .contentType(ContentType.URLENC)
                 .formParam("username", "")
-                .formParam("password", auth.getPassword())
+                .formParam("password", PASSWORD)
                 .when()
                 .post("/login")
                 .then()
@@ -80,7 +83,7 @@ public class LoginTests extends TestBase {
     public void loginWithoutPassword(){
         ResponseDto error = given()
                 .contentType(ContentType.URLENC)
-                .formParam("username", auth.getUsername())
+                .formParam("username", EMAIL)
                 .formParam("password", "")
                 .when()
                 .post("/login")
