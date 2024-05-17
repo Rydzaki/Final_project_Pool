@@ -2,6 +2,7 @@ package com.pool.testsRA;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pool.dto.NewUserDto;
 import com.pool.dto.UserDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -20,6 +21,17 @@ public class TestBase {
     public static final String PASSWORD_INVALID = "Pass123455";
     public static final String MESSAGE = "Login successful";
     public static final String SESSION_ID = "JSESSIONID";
+
+
+    String n = "1";
+    NewUserDto register = NewUserDto.builder()
+            .firstName("Bruce")
+            .lastName("Wayne")
+            .email("autest" + n + "@mail.com")
+            .phoneNumber("+11234567890")
+            .password("Pass12345!")
+            .build();
+
 
 
 
