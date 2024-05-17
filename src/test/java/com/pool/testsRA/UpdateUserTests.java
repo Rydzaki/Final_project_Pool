@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class UpdateUserTests extends TestBase {
 
-    public Integer idUser = 10;
+    public Integer idUser = 3;
 
     @Test
     public void updateUserByIdSuccessTest() {

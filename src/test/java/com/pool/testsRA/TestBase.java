@@ -56,7 +56,7 @@ public class TestBase {
 
 
     //Печать в красивом формате JSON
-    protected static void printJson(UserDto dto) {
+    protected static void printJson(Object dto) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResponse = gson.toJson(dto);
 
