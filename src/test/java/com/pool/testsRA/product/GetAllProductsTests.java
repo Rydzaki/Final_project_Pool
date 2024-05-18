@@ -1,6 +1,7 @@
-package com.pool.testsRA;
+package com.pool.testsRA.product;
 
-import com.pool.dto.ProductDto;
+import com.pool.dto.product.ProductDto;
+import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
 import org.testng.annotations.Test;
@@ -11,7 +12,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
 
 
-public class GetAllProductsTests extends TestBase{
+public class GetAllProductsTests extends TestBase {
 
     @Test
             public void getAllProductsTest() {

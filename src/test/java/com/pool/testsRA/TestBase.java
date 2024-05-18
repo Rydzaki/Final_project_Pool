@@ -2,13 +2,11 @@ package com.pool.testsRA;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pool.dto.NewUserDto;
-import com.pool.dto.UserDto;
+import com.pool.dto.user.NewUserDto;
+import com.pool.dto.user.UserDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
-import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeMethod;
 
 import static io.restassured.RestAssured.given;
@@ -24,7 +22,7 @@ public class TestBase {
 
 
     String n = "1";
-    NewUserDto register = NewUserDto.builder()
+    public NewUserDto register = NewUserDto.builder()
             .firstName("Bruce")
             .lastName("Wayne")
             .email("autest" + n + "@mail.com")
@@ -32,16 +30,13 @@ public class TestBase {
             .password("Pass12345!")
             .build();
 
-
-
-
     @BeforeMethod
     public void init() {
         RestAssured.baseURI = "http://localhost:8080";
         RestAssured.basePath = "/api";
     }
 
-    //Получаю идентификатор сессии
+    // Получение идентификатора сессии
     public static Cookies getCookiesForLogin() {
         return given()
                 .contentType(ContentType.URLENC)
@@ -51,11 +46,9 @@ public class TestBase {
                 .post("/login")
                 .then()
                 .extract().response().detailedCookies();
-
     }
 
-
-    //Печать в красивом формате JSON
+    // Печать в красивом формате JSON
     protected static void printJson(Object dto) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResponse = gson.toJson(dto);
@@ -64,5 +57,33 @@ public class TestBase {
         System.out.println(jsonResponse);
     }
 
+    // Регистрация нового пользователя с предопределёнными данными
+    public UserDto registerNewUser() {
+        return given()
+                .contentType(ContentType.JSON)
+                .body(register)
+                .when()
+                .post("users/register")
+                .then()
+                .extract().response().as(UserDto.class);
+    }
 
+    // Регистрация нового пользователя с указанным email
+    public UserDto registerNewUser(String email) {
+        NewUserDto customRegister = NewUserDto.builder()
+                .firstName("Bruce")
+                .lastName("Wayne")
+                .email(email)
+                .phoneNumber("+11234567890")
+                .password("Pass12345!")
+                .build();
+
+        return given()
+                .contentType(ContentType.JSON)
+                .body(customRegister)
+                .when()
+                .post("users/register")
+                .then()
+                .extract().response().as(UserDto.class);
+    }
 }

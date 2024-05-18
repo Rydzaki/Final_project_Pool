@@ -1,6 +1,7 @@
-package com.pool.testsRA;
+package com.pool.testsRA.product;
 
-import com.pool.dto.ProductDto;
+import com.pool.dto.product.ProductDto;
+import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
 import org.testng.annotations.Test;
@@ -8,7 +9,7 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-public class DeleteProductWithIdTetst extends TestBase{
+public class DeleteProductWithIdTetst extends TestBase {
 
     private Integer idProduct = 3;
 

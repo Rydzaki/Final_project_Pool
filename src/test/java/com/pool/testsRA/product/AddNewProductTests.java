@@ -1,11 +1,9 @@
-package com.pool.testsRA;
+package com.pool.testsRA.product;
 
-import com.pool.dto.NewProductDto;
-import com.pool.dto.NewUserDto;
-import com.pool.dto.ProductDto;
+import com.pool.dto.product.NewProductDto;
+import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
-import io.restassured.http.Cookies;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
