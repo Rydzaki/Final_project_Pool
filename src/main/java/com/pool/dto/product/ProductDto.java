@@ -1,4 +1,4 @@
-package com.pool.dto;
+package com.pool.dto.product;
 
 import lombok.Builder;
 import lombok.Getter;

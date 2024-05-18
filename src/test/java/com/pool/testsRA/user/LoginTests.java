@@ -1,8 +1,8 @@
-package com.pool.testsRA;
+package com.pool.testsRA.user;
 
 
-import com.pool.dto.RequestDto;
 import com.pool.dto.ResponseDto;
+import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
