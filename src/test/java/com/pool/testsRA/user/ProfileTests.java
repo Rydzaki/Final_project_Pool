@@ -1,7 +1,8 @@
-package com.pool.testsRA;
+package com.pool.testsRA.user;
 
 import com.pool.dto.ResponseDto;
-import com.pool.dto.UserDto;
+import com.pool.dto.user.UserDto;
+import com.pool.testsRA.TestBase;
 import io.restassured.http.Cookie;
 import org.testng.annotations.Test;
 

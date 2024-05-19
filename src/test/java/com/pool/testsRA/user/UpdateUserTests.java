@@ -1,10 +1,10 @@
-package com.pool.testsRA;
+package com.pool.testsRA.user;
 
 import com.google.gson.Gson;
-import com.pool.dto.UserDto;
+import com.pool.dto.user.UserDto;
+import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;

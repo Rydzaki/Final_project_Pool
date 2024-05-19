@@ -1,8 +1,8 @@
-package com.pool.testsRA;
+package com.pool.testsRA.user;
 
-import com.pool.dto.NewUserDto;
-import com.pool.dto.UserDto;
-import com.pool.dto.ValidationError;
+import com.pool.dto.user.NewUserDto;
+import com.pool.dto.user.UserDto;
+import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
@@ -10,19 +10,8 @@ import static io.restassured.RestAssured.given;
 
 public class RegisterTests extends TestBase {
 
-    String n = "1";
 
-    NewUserDto register = NewUserDto.builder()
-            .firstName("Bruce")
-            .lastName("Wayne")
-            .email("autest" + n + "@mail.com")
-            .phoneNumber("+11234567890")
-            .password("Pass12345!")
-            .build();
-
-
-    
-    @Test 
+    @Test
     public void registerSuccessTest(){
         UserDto user = given()
                 .contentType(ContentType.JSON)

@@ -1,4 +1,4 @@
-package com.pool.dto;
+package com.pool.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,16 +10,11 @@ import lombok.ToString;
 @ToString
 @Builder
 
-public class UserDto {
+public class NewUserDto {
 
-    private Integer id;
     private String firstName;
     private String lastName;
-    private String email;
-    private String role;
     private String phoneNumber;
-
-
-    private String message;
-
+    private String email;
+    private String password;
 }
