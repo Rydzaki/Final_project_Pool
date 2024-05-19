@@ -39,7 +39,6 @@ public class TestBase {
                 .post("/login")
                 .then()
                 .extract().response().detailedCookies();
-
     }
 
 
