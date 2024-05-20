@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -14,9 +17,10 @@ import java.time.ZonedDateTime;
 
 public class NewOrdersDto {
 
-    private Integer id;
+    private Integer id; // todo Этого нет
     private Integer userId;
     private double summa;
     private Integer itemsCount;
-    private ZonedDateTime date;
+//    private ZonedDateTime date;
+    private LocalDate date;
 }

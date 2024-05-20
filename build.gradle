@@ -17,16 +17,13 @@ dependencies {
     implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.0'
 
     implementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
-    implementation 'org.testng:testng:7.10.2'
     implementation 'ch.qos.logback:logback-classic:1.5.6'
 
 
-
-
-    compileOnly 'org.projectlombok:lombok:1.18.16'
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
-    testCompileOnly 'org.projectlombok:lombok:1.18.16'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 
 }
