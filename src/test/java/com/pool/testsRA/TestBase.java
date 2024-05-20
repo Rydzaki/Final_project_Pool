@@ -20,7 +20,6 @@ public class TestBase {
     public static final String MESSAGE = "Login successful";
     public static final String SESSION_ID = "JSESSIONID";
 
-
     String n = "1";
     public NewUserDto register = NewUserDto.builder()
             .firstName("Bruce")

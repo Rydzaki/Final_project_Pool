@@ -14,6 +14,7 @@ dependencies {
 
     implementation 'io.rest-assured:rest-assured:5.4.0'
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.0'
 
     implementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
     implementation 'org.testng:testng:7.10.2'
