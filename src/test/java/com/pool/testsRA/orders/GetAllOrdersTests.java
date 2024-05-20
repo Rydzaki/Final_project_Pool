@@ -3,7 +3,7 @@ package com.pool.testsRA.orders;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.pool.dto.orders.OrdersDto;
+import com.pool.dto.orders.OrderDto;
 import com.pool.dto.user.UserDto;
 import com.pool.testsRA.TestBase;
 import com.pool.testsRA.ZonedDateTimeAdapter;
@@ -36,8 +36,8 @@ public class GetAllOrdersTests extends TestBase {
                     .statusCode(200)
                     .extract().response().asString();
 
-            OrdersDto[] ordersArray = gson.fromJson(jsonResponse, OrdersDto[].class);
-            List<OrdersDto> responseOrders = Arrays.asList(ordersArray);
+            OrderDto[] ordersArray = gson.fromJson(jsonResponse, OrderDto[].class);
+            List<OrderDto> responseOrders = Arrays.asList(ordersArray);
 
             printJson(responseOrders);
         } catch (Exception e) {
