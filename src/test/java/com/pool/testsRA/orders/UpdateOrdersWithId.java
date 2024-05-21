@@ -1,66 +1,63 @@
 package com.pool.testsRA.orders;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pool.dto.orders.NewOrdersDto;
 import com.pool.dto.orders.OrderDto;
-
 import com.pool.testsRA.TestBase;
 import com.pool.testsRA.ZonedDateTimeAdapter;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
 import org.testng.annotations.Test;
 
-
 import java.time.ZonedDateTime;
 
-
+import static com.pool.testsRA.TestBase.SESSION_ID;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-
-public class CreateNewOrdersTests extends TestBase {
-
+public class UpdateOrdersWithId extends TestBase {
 
     @Test
-    public void createNewOrderTests() {
+    public void updateOrderWithIdTests() {
+        // Установим дату в виде строки в формате ISO 8601
+        String date = "2024-05-19T19:30:18.591+00:00";
+        Integer ordersId=2;
 
-        OrderDto newOrder = OrderDto.builder()
-                .userId(3)
-                .summa(25.77)
-                .itemsCount(1)
-                .date("2024-05-20T22:27:31.444Z")
+        NewOrdersDto newOrder = NewOrdersDto.builder()
+                .userId(ordersId)
+                .summa(2000)
+                .itemsCount(3)
+                .date(date) // Дата передается как строка
                 .build();
 
-        // Создаем объект Gson с зарегистрированным адаптером ZonedDateTime
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
                 .setPrettyPrinting()
                 .create();
 
-        // Преобразуем объект OrdersDto в JSON строку
+        // Преобразуем объект NewOrdersDto в JSON строку
         String jsonRequest = gson.toJson(newOrder);
+        System.out.println("Request JSON: " + jsonRequest); // Печатаем JSON для проверки
 
-        // Отправляем POST запрос для создания нового заказа
+        // Отправляем PUT запрос и проверяем ответ
         OrderDto responseOrder = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
-                .body(jsonRequest)
+                .body(jsonRequest) // Передаем тело запроса
                 .when()
-                .post("/orders")
+                .put("/orders/" + ordersId)
                 .then()
                 .assertThat()
-                .statusCode(201)
+                .statusCode(200)
                 .body("id", notNullValue())
                 .body("userId", equalTo(newOrder.getUserId()))
                 .body("summa", equalTo((float) newOrder.getSumma()))
                 .body("itemsCount", equalTo(newOrder.getItemsCount()))
+                .body("date", equalTo(newOrder.getDate())) // Проверяем дату
                 .extract().response().as(OrderDto.class);
 
         // Печатаем JSON ответа
         printJson(responseOrder);
     }
-
-
 }

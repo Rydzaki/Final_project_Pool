@@ -17,10 +17,12 @@ import java.util.Date;
 
 public class NewOrdersDto {
 
-    private Integer id; // todo Этого нет
+    private Integer id;
     private Integer userId;
     private double summa;
     private Integer itemsCount;
-//    private ZonedDateTime date;
-    private LocalDate date;
+    private String date;
+
+    //    private ZonedDateTime date;
+    //private LocalDate date;
 }
