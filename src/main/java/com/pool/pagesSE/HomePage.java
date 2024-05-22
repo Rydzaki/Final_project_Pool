@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class HomePage extends BasePage{
 
     public HomePage(WebDriver driver) {
@@ -37,5 +39,17 @@ public class HomePage extends BasePage{
         } catch (NoSuchElementException e) {
             return true;
         }
+    }
+
+    @FindBy(css = "a")
+    List<WebElement> allLinks;
+
+    public HomePage checkBrokenLinks() {
+        for (int i = 0; i < allLinks.size(); i++) {
+            WebElement element = allLinks.get(i);
+            String url = element.getAttribute("href");
+            verifyLinks(url);
+        }
+        return this;
     }
 }
