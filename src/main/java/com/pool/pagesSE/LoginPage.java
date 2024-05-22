@@ -3,7 +3,6 @@ package com.pool.pagesSE;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.annotations.Test;
 
 public class LoginPage extends BasePage {
 
@@ -19,12 +18,26 @@ public class LoginPage extends BasePage {
     WebElement enterBtn;
 
 
-    public LoginPage loginValidData(String mail, String password) {
+    public void loginData(String mail, String password) {
         type(emailInput, mail);
         type(passwordInput, password);
         click(enterBtn);
-        return this;
 
     }
+
+    @FindBy(css = "p.error")
+    WebElement errorMessage;
+
+    public String getErrorMessage() {
+        return errorMessage.getText();
+    }
+
+    @FindBy(css = "a[href='/profile']")
+    WebElement profile;
+    public boolean isProfileVisible() {
+        return profile.isDisplayed();
+    }
+
+
 
 }
