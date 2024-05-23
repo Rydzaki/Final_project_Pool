@@ -43,9 +43,6 @@ public class HomePage extends BasePage {
     @FindBy(css = "a")
     List<WebElement> allLinks;
 
-    @FindBy(css = "a[href='https://ok.ru/']")
-    WebElement urlToOpen;
-
     public void checkBrokenLinks() {
         int numberOfWindowsBefore = driver.getWindowHandles().size(); // Получаем количество открытых окон до проверки
 
@@ -64,10 +61,13 @@ public class HomePage extends BasePage {
                 } else {
                     System.out.println("Link does not open.");
                 }
-               // driver.close();
             }
+            closeTab();
+
 
         }
+
     }
+
 
 }

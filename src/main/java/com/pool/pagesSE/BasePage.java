@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Set;
 
 public abstract class BasePage {
 
@@ -76,4 +78,19 @@ public abstract class BasePage {
         return true;
 
     }
+
+    public void closeTab() {
+        String mainWindowHandle = driver.getWindowHandle();
+        // Ожидаем открытие новой вкладки и получаем дескрипторы всех вкладок
+        Set<String> allWindowHandles = driver.getWindowHandles();
+        ArrayList<String> tabs = new ArrayList<>(allWindowHandles);
+        if (tabs.size() > 1) {
+            driver.switchTo().window(tabs.get(tabs.size() - 1));
+            driver.close();
+            driver.switchTo().window(mainWindowHandle);
+        } else {
+            System.out.println("Нет новой вкладки для закрытия.");
+        }
+    }
+
 }
