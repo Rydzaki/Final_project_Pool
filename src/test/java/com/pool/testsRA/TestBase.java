@@ -2,6 +2,7 @@ package com.pool.testsRA;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pool.dto.ResponseDto;
 import com.pool.dto.user.NewUserDto;
 import com.pool.dto.user.UserDto;
 import io.restassured.RestAssured;
@@ -24,7 +25,7 @@ public class TestBase {
     public NewUserDto register = NewUserDto.builder()
             .firstName("Bruce")
             .lastName("Wayne")
-            .email("autest" + n + "@mail.com")
+            .email("test" + n + "@mail.com")
             .phoneNumber("+11234567890")
             .password("Pass12345!")
             .build();
@@ -41,6 +42,16 @@ public class TestBase {
                 .contentType(ContentType.URLENC)
                 .formParam("username", EMAIL)
                 .formParam("password", PASSWORD)
+                .when()
+                .post("/login")
+                .then()
+                .extract().response().detailedCookies();
+    }
+    public static Cookies getCookiesForLogin(String email, String password) {
+        return given()
+                .contentType(ContentType.URLENC)
+                .formParam("username", email)
+                .formParam("password", password)
                 .when()
                 .post("/login")
                 .then()
@@ -84,5 +95,36 @@ public class TestBase {
                 .post("users/register")
                 .then()
                 .extract().response().as(UserDto.class);
+    }
+
+
+
+    public UserDto createNewUserAndLogin(String email){
+        NewUserDto user = NewUserDto.builder()
+                .firstName("Bruce")
+                .lastName("Wayne")
+                .email(email)
+                .phoneNumber("+11234567890")
+                .password("Pass12345!")
+                .build();
+
+        UserDto emailRequest =  given()
+                .contentType(ContentType.JSON)
+                .body(user)
+                .when()
+                .post("users/register")
+                .then()
+                .extract().response().as(UserDto.class);
+
+        ResponseDto dto = given()
+                .contentType(ContentType.URLENC)
+                .formParam("username", user.getEmail())
+                .formParam("password", PASSWORD)
+                .when()
+                .post("/login")
+                .then()
+                .extract().response().as(ResponseDto.class);
+
+        return emailRequest;
     }
 }

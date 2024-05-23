@@ -5,10 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.Date;
 
 @Setter
 @Getter
@@ -23,6 +19,6 @@ public class NewOrdersDto {
     private Integer itemsCount;
     private String date;
 
-    //    private ZonedDateTime date;
-    //private LocalDate date;
+    //    private ZonedDateTime date; //todo
+
 }
