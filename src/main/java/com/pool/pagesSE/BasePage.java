@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,35 +20,32 @@ public abstract class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        js =(JavascriptExecutor) driver;
+        js = (JavascriptExecutor) driver;
     }
 
-    public void click(WebElement element){
+    public void click(WebElement element) {
         element.click();
     }
 
-    public void type(WebElement element, String text){
-        if(text != null){
+    public void type(WebElement element, String text) {
+        if (text != null) {
             click(element);
             element.clear();
             element.sendKeys(text);
         }
-
     }
 
-    public void clickJS(WebElement element, int x, int y){
-        js.executeScript("window.scrollBy(" + x + "," + y +")");
+    public void clickJS(WebElement element, int x, int y) {
+        js.executeScript("window.scrollBy(" + x + "," + y + ")");
         click(element);
     }
 
-    public  boolean shouldHaveText(WebElement element, String text, int time){
+    public boolean shouldHaveText(WebElement element, String text, int time) {
         return new WebDriverWait(driver, Duration.ofSeconds(time))
                 .until(ExpectedConditions.textToBePresentInElement(element, text));
     }
 
-
-
-    public  void  pause(int millis){
+    public void pause(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -55,24 +53,27 @@ public abstract class BasePage {
         }
     }
 
-    public void verifyLinks(String linkUrl) {
-        try {
+    public void waitUntilUrlToBe(String url) {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until((ExpectedCondition<Boolean>) d -> d.getCurrentUrl().equals(url));
+    }
 
+    public boolean verifyLinks(String linkUrl) {
+        try {
             URL url = new URL(linkUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setConnectTimeout(5000);
             httpURLConnection.connect();
 
-            if(httpURLConnection.getResponseCode()>=400){
+            if (httpURLConnection.getResponseCode() >= 400) {
                 System.out.println(linkUrl + " - " + httpURLConnection.getResponseMessage() + " is a broken link");
             } else {
-                System.out.println(linkUrl + " - "+ httpURLConnection.getResponseMessage());
+                System.out.println(linkUrl + " - " + httpURLConnection.getResponseMessage());
             }
-        } catch (Exception e){
-            System.out.println(linkUrl+ " - " + e.getMessage() + " ERROR occurred");
+        } catch (Exception e) {
+            System.out.println(linkUrl + " - " + e.getMessage() + " ERROR occurred");
         }
+        return true;
 
     }
-
-
 }
