@@ -16,9 +16,9 @@ public class AddNewProductTests extends TestBase {
 
         NewProductDto newProduct = NewProductDto.builder()
 
-                .title("New item3")
-                .price(25.77)
-                .category("service")
+                .title("HCL")
+                .price(100)
+                .category("Chemistry")
                 .build();
 
 
