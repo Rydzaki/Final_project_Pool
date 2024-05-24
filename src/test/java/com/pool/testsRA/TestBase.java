@@ -14,11 +14,11 @@ import static io.restassured.RestAssured.given;
 
 public class TestBase {
 
-    public static final String EMAIL = "ushakov_test@mail.com";
+    public static final String EMAIL = "test1@mail.com";
     public static final String EMAIL_INVALID = "@mail.com";
     public static final String PASSWORD = "Pass12345!";
     public static final String PASSWORD_INVALID = "Pass123455";
-    public static final String MESSAGE = "Login successful";
+    public static final String MESSAGE = "Login successful"; //todo
     public static final String SESSION_ID = "JSESSIONID";
 
     String n = "1";
