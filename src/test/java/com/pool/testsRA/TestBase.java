@@ -3,23 +3,29 @@ package com.pool.testsRA;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pool.dto.ResponseDto;
+import com.pool.dto.cartProduct.CartProductDto;
 import com.pool.dto.user.NewUserDto;
 import com.pool.dto.user.UserDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
 import org.testng.annotations.BeforeMethod;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class TestBase {
 
-    public static final String EMAIL = "test1@mail.com";
+    public static final String EMAIL = "ushakov_test@mail.com";
     public static final String EMAIL_INVALID = "@mail.com";
     public static final String PASSWORD = "Pass12345!";
     public static final String PASSWORD_INVALID = "Pass123455";
     public static final String MESSAGE = "Login successful"; //todo
     public static final String SESSION_ID = "JSESSIONID";
+
+
+
 
     String n = "1";
     public NewUserDto register = NewUserDto.builder()
@@ -47,6 +53,7 @@ public class TestBase {
                 .then()
                 .extract().response().detailedCookies();
     }
+
     public static Cookies getCookiesForLogin(String email, String password) {
         return given()
                 .contentType(ContentType.URLENC)
@@ -127,4 +134,47 @@ public class TestBase {
 
         return emailRequest;
     }
-}
+
+    public void loginSuccessTest(String email, String password) {
+        ResponseDto dto = given()
+                .contentType(ContentType.URLENC)
+                .formParam("username", email)
+                .formParam("password", password)
+                .when()
+                .post("/login")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract()
+                .response()
+                .as(ResponseDto.class);
+
+        System.out.println(dto.getMessage());
+    }
+
+    public  CartProductDto addToCart(int cartId, int productId, int quantity) {
+        CartProductDto productToCart = CartProductDto.builder()
+                .productId(productId)
+                .quantity(quantity)
+                .build();
+
+        CartProductDto responseCartProduct = given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .contentType(ContentType.JSON)
+                .body(productToCart) // Отправка нового продукта в теле запроса
+                .when()
+                .post("/cart/" + cartId + "/products")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("productId", equalTo(productToCart.getProductId()))
+                .body("quantity", equalTo(productToCart.getQuantity()))
+                .extract()
+                .response()
+                .as(CartProductDto.class);
+
+        printJson(responseCartProduct);
+        return responseCartProduct;
+
+    }
+    }

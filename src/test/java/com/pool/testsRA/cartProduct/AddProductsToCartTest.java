@@ -13,9 +13,9 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class AddProductsToCartTest extends TestBase {
 
-    private Integer cartId = 3; //всегда новому пользователю +1 от текущего числа
+    private Integer cartId = 5; //всегда новому пользователю +1 от текущего числа
 
-    int index = 3;
+    int index = 5;
     @BeforeMethod
     public void precondition(){
         createNewUserAndLogin("test" + index + "@mail.com");

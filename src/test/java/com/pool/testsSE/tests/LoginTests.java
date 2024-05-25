@@ -13,12 +13,7 @@ public class LoginTests extends TestBaseSE {
         new HomePage(driver).selectEnterBtn();
     }
 
-    @Test
-    public void LoginSuccessTest() {
-        new LoginPage(driver).loginData(VALID_MAIL, VALID_PASSWORD);
-        boolean isProfile = new LoginPage(driver).isProfileVisible();
-        Assert.assertTrue(isProfile);
-    }
+
 
 
     @Test
