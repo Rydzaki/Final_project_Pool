@@ -24,8 +24,6 @@ public class DeleteProductWithIdTetst extends TestBase {
                 .build();
 
         ProductDto responseProduct = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
-                .contentType(ContentType.JSON)
                 .when()
                 .delete("/products/" + idProduct)
                 .then()
@@ -36,6 +34,8 @@ public class DeleteProductWithIdTetst extends TestBase {
                 .body("price", equalTo((float) expectedProduct.getPrice()))
                 .body("category", equalTo(expectedProduct.getCategory()))
                 .extract().response().as(ProductDto.class);
+
+        printJson(responseProduct);
 
         printJson(responseProduct);
     }
