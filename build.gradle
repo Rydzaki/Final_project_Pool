@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.testng:testng:7.10.1'
+    implementation 'org.testng:testng:7.10.2'
 
     implementation 'io.rest-assured:rest-assured:5.4.0'
     implementation 'com.google.code.gson:gson:2.10.1'
