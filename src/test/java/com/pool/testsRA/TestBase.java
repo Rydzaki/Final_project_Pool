@@ -38,7 +38,8 @@ public class TestBase {
 
     @BeforeMethod
     public void init() {
-        RestAssured.baseURI = "http://localhost:8080";
+        //RestAssured.baseURI = "http://localhost:8080";
+        RestAssured.baseURI = "https://cohort-34-pool-app-unpfj.ondigitalocean.app";
         RestAssured.basePath = "/api";
     }
 

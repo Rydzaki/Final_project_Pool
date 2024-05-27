@@ -13,8 +13,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class AddProductsToCartTest extends TestBase {
 
-    private Integer cartId = 5; //всегда новому пользователю +1 от текущего числа
-
+    int cartId = 5; //всегда новому пользователю +1 от текущего числа
     int index = 5;
     @BeforeMethod
     public void precondition(){

@@ -21,7 +21,8 @@ public class TestBaseSE {
     @BeforeMethod
     public void init(){
         driver = new ChromeDriver();
-        driver.get("http://localhost:5173"); //TODO
+        //driver.get("http://localhost:5173"); //TODO
+        driver.get("https://cohort-34-pool-app-unpfj.ondigitalocean.app/"); //TODO
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
