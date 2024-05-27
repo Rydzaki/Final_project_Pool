@@ -2,11 +2,13 @@ package com.pool.testsSE.tests;
 
 import com.pool.pagesSE.HomePage;
 import com.pool.pagesSE.RegistrationPage;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class RegistrationTests extends TestBaseSE{
+public class RegistrationTests extends TestBaseSE {
 
     @BeforeMethod
     public void precondition() {
@@ -16,7 +18,7 @@ public class RegistrationTests extends TestBaseSE{
     @Test
     public void registrationTest() {
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillRegistrationForm("Anna", "Konnova", "marta1@gm.com", "12345Figa!", "12345Figa!", "+79213334567");
+        registrationPage.fillRegistrationForm("Ronja", "Konnova", "martaZ@gm.com", "12345Figa!", "12345Figa!", "+79213334567");
     }
 
     @Test
@@ -56,14 +58,14 @@ public class RegistrationTests extends TestBaseSE{
         for (String surname : invalidSurnames) {
             registrationPage.fillRegistrationForm("Olga", surname, "email@example.com", "12345Figa!", "12345Figa!", "+79213334567");
 
-           // Assert.assertEquals(error, "Неверный логин или пароль");
+            // Assert.assertEquals(error, "Неверный логин или пароль");
 
         }
     }
 
     @Test
     public void registrationWithInvalidPasswordFormatTest() {
-        String[] invalidPasswords = {"", "12345", "password", "!@#$$%^^&*","a", "12loKo!3456789012345678901", "PASSWORD"};
+        String[] invalidPasswords = {"", "12345", "password", "!@#$$%^^&*", "a", "12loKo!3456789012345678901", "PASSWORD"};
 
         RegistrationPage registrationPage = new RegistrationPage(driver);
 
@@ -72,13 +74,12 @@ public class RegistrationTests extends TestBaseSE{
             // Assert.assertEquals(error, "Неверный логин или пароль");
         }
     }
+
     @Test
     public void registrationWithMismatchedPasswordsTest() {
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillRegistrationForm("Olga", "Ivanova", "email@example.com", "password1", "password2", "+79213334567");
+        RegistrationPage registrationPage = new RegistrationPage(driver).fillRegistrationForm("Olga", "Ivanova", "email@example.com", "password1", "password2", "+79213334567");
 
-        // Assert.assertEquals(error, "Неверный логин или пароль");
+        Assert.assertTrue(registrationPage.alertCheck());
     }
 
 }
-

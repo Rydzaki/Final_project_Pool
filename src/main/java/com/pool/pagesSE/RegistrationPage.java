@@ -1,8 +1,14 @@
 package com.pool.pagesSE;
 
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class RegistrationPage extends BasePage{
     public RegistrationPage(WebDriver driver) {
@@ -16,6 +22,9 @@ public class RegistrationPage extends BasePage{
         click(enter);
         return new RegistrationPage(driver);
     }
+
+
+
 
     @FindBy(css = ".modal input[placeholder='Имя']")
     WebElement firstNameInput;
@@ -35,7 +44,7 @@ public class RegistrationPage extends BasePage{
     @FindBy(css = ".modal input[placeholder='Телефон']")
     WebElement phoneInput;
 
-    @FindBy(css = ".modal button:nth-child(1)")
+    @FindBy(xpath = "//button[text()='Регистрация']")
     WebElement registrationButton;
 
     public RegistrationPage fillRegistrationForm(String firstName, String lastName, String email, String password, String confirmPassword, String phone) {
@@ -46,9 +55,18 @@ public class RegistrationPage extends BasePage{
         type(passwordInput, password);
         type(confirmPasswordInput, confirmPassword);
         type(phoneInput, phone);
-        selectRegistrationBtn();
+        click(registrationButton);
         return new RegistrationPage(driver);
     }
 
+    public boolean alertCheck(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        alert.accept();
+        if(alert != null){
+            return true;
+        };
+        return false;
+    }
 
 }
