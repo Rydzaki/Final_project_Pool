@@ -49,13 +49,16 @@ public class HomePage extends BasePage {
         for (WebElement element : allLinks) {
             String url = element.getAttribute("href");
             boolean verify =  verifyLinks(url); // Проверяем статус ссылки
+            pause(1000);
             if ((verify|| url.isEmpty()) && url.contains("https")) {
                 // Если ссылка null или пустая, открываем окно
-                click(element);
                 pause(1000);
+                click(element);
+                pause(1000); //TODO заменить на WEBDriverWait
                 // Проверяем количество открытых окон после клика
                 int numberOfWindowsAfter = driver.getWindowHandles().size();
 //                System.out.println(numberOfWindowsAfter - numberOfWindowsBefore + " - ссылок всего на странице"); //todo
+                pause(1000);
                 if (numberOfWindowsAfter > numberOfWindowsBefore) {
                     System.out.println("Link opens successfully.");
                 } else {
