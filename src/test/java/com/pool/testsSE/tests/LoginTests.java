@@ -13,8 +13,14 @@ public class LoginTests extends TestBaseSE {
         new HomePage(driver).selectEnterBtn();
     }
 
+    @Test
+    public void loginWithValidEmailPositiveTest() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginData(VALID_MAIL, VALID_PASSWORD);
 
-
+        boolean isProfileVisible = loginPage.isProfileVisible();
+        Assert.assertTrue(isProfileVisible);
+    }
 
     @Test
     public void LoginWithInvalidEmailNegativeTest() {

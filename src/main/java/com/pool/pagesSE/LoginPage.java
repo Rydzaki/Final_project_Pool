@@ -1,8 +1,13 @@
 package com.pool.pagesSE;
 
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
@@ -32,12 +37,12 @@ public class LoginPage extends BasePage {
         return errorMessage.getText();
     }
 
-    @FindBy(css = "a[href='/profile']")
+    @FindBy(css = "a[href='#/profile']")
     WebElement profile;
+
     public boolean isProfileVisible() {
         return profile.isDisplayed();
+
     }
-
-
 
 }
