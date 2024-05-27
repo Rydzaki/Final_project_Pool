@@ -15,9 +15,9 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(css = ".modal input[type=text]:nth-child(2)\n")
+    @FindBy(css = ".modal input[type=text]:nth-child(2)")
     WebElement emailInput;
-    @FindBy(css = ".modal input[type=password]:nth-child(3)\n")
+    @FindBy(css = ".modal input[type=password]:nth-child(3)")
     WebElement passwordInput;
     @FindBy(css = ".modal button:nth-child(4)")
     WebElement enterBtn;
