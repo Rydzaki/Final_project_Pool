@@ -46,7 +46,7 @@ public class RegistrationPage extends BasePage{
         type(passwordInput, password);
         type(confirmPasswordInput, confirmPassword);
         type(phoneInput, phone);
-        selectRegistrationBtn();
+        click(registrationButton);
         return new RegistrationPage(driver);
     }
 

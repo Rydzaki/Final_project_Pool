@@ -16,7 +16,7 @@ public class RegistrationTests extends TestBaseSE{
     @Test
     public void registrationTest() {
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillRegistrationForm("Anna", "Konnova", "marta1@gm.com", "12345Figa!", "12345Figa!", "+79213334567");
+        registrationPage.fillRegistrationForm("Ronja", "Konnova", "martaS@gm.com", "12345Figa!", "12345Figa!", "+79213334567");
     }
 
     @Test
