@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -59,14 +60,12 @@ public class RegistrationPage extends BasePage{
         return new RegistrationPage(driver);
     }
 
-    public boolean alertCheck(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+    public void  alertCheck(String message){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        String alertText = alert.getText();
         alert.accept();
-        if(alert != null){
-            return true;
-        };
-        return false;
+        Assert.assertEquals(message, alertText);
     }
 
 }

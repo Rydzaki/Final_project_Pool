@@ -74,10 +74,8 @@ public class RegistrationTests extends TestBaseSE{
     }
     @Test
     public void registrationWithMismatchedPasswordsTest() {
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillRegistrationForm("Olga", "Ivanova", "email@example.com", "password1", "password2", "+79213334567");
+        new RegistrationPage(driver).fillRegistrationForm("Olga", "Ivanova", "email@example.com", "password1", "password2", "+79213334567").alertCheck("Пароли не совпадают");
 
-        // Assert.assertEquals(error, "Неверный логин или пароль");
     }
 
 }
