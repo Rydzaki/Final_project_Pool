@@ -45,4 +45,8 @@ public class LoginPage extends BasePage {
 
     }
 
+    public void myProfilePage(){
+        click(profile);
+    }
+
 }
