@@ -17,7 +17,7 @@ public class DeleteUserTests extends TestBaseSE{
 
     @Test
     public void adminDeleted(){
-        new MyProfilePage(driver).deleteUser("marta1@gm.com");
+        new MyProfilePage(driver).deleteUser("martaТ@gm.com");
     }
 
 
