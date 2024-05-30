@@ -46,7 +46,7 @@ public class HomePage extends BasePage {
         }
     }
 
-    public static final Duration WAIT = Duration.ofMillis(1000);
+    public static final Duration WAIT = Duration.ofMillis(3000);
 
     @FindBy(css = "a")
     List<WebElement> allLinks;

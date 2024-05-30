@@ -49,6 +49,7 @@ public class RegistrationPage extends BasePage{
     WebElement registrationButton;
 
     public RegistrationPage fillRegistrationForm(String firstName, String lastName, String email, String password, String confirmPassword, String phone) {
+        pause(1000);
         selectRegistrationBtn();
         type(firstNameInput, firstName);
         type(lastNameInput, lastName);
