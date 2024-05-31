@@ -9,7 +9,7 @@ out/
 settings.gradle
 *.bat
 
-*.jar
+
 *.properties
 *.log
 *.png
