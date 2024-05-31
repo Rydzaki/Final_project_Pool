@@ -10,7 +10,6 @@ settings.gradle
 *.bat
 
 
-*.properties
 *.log
 *.png
 
