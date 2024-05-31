@@ -16,10 +16,10 @@ public class GetAllUsersTests extends TestBase {
     public void getAllUsersPositiveTest() {
 
         List<UserDto> listAllUsers = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build()) // Установка сессии из куки
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin("ushakov_test@mail.com", PASSWORD).get(SESSION_ID).getValue()).build()) // Установка сессии из куки
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/users/users")
+                .get("/users")
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().jsonPath().getList( ".",UserDto.class);

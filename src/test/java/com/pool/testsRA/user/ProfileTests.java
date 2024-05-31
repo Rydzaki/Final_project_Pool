@@ -18,8 +18,6 @@ public class ProfileTests extends TestBase {
                 .then()
                 .assertThat().statusCode(401)
                 .extract().response().as(ResponseDto.class);
-
-        System.out.println(dto.getMessage());
     }
 
 
@@ -28,15 +26,12 @@ public class ProfileTests extends TestBase {
     public void getProfilePositiveTest() {
 
         UserDto dto = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build()) // Установка сессии из куки
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .when()
                 .get("/users/profile")
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(UserDto.class);
-
-       // Создание Json с отступами и новыми строками
-       printJson(dto);
    }
 
 

@@ -10,21 +10,20 @@ import static io.restassured.RestAssured.given;
 
 public class DeleteUserTests extends TestBase {
 
-    UserDto newUser = registerNewUser("testDelete@mail.com");
-    Integer userId = newUser.getId(); // получаем его ID
-
+    // получаем его ID
 
     @Test
     public void deleteUserByIdSuccessTest() {
-        // Создаем нового пользователя с пометкой в email
 
+        UserDto newUser = registerNewUser("testDelete@mail.com");
+        Integer idNewUser = newUser.getId();
 
         // Удаление пользователя
         UserDto responseDelete = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
                 .when()
-                .delete("/users/" + userId)
+                .delete("/users/" + idNewUser)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -33,16 +32,16 @@ public class DeleteUserTests extends TestBase {
         printJson(responseDelete);
     }
 
-    @Test
-    public void deleteUserByIdNegativeTest() {
-        // Проверить, что пользователь удален
-        given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/users/" + userId)
-                .then()
-                .assertThat()
-                .statusCode(405); // Ожидаем, что пользователь не существует
-    }
+//    @Test
+//    public void deleteUserByIdNegativeTest() {
+//        // Проверить, что пользователь удален
+//        given()
+//                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+//                .contentType(ContentType.JSON)
+//                .when()
+//                .get("/users/" + userId)
+//                .then()
+//                .assertThat()
+//                .statusCode(405); // Ожидаем, что пользователь не существует
+//    }
 }

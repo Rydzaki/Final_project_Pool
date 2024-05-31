@@ -21,7 +21,6 @@ public class TestBase {
     public static final String EMAIL_INVALID = "@mail.com";
     public static final String PASSWORD = "Pass12345!";
     public static final String PASSWORD_INVALID = "Pass123455";
-    public static final String MESSAGE = "Login successful"; //todo
     public static final String SESSION_ID = "JSESSIONID";
 
 
@@ -38,8 +37,8 @@ public class TestBase {
 
     @BeforeMethod
     public void init() {
-        //RestAssured.baseURI = "http://localhost:8080";
-        RestAssured.baseURI = "https://cohort-34-pool-app-unpfj.ondigitalocean.app";
+        RestAssured.baseURI = "http://localhost:8080";
+        //RestAssured.baseURI = "https://cohort-34-pool-app-unpfj.ondigitalocean.app";
         RestAssured.basePath = "/api";
     }
 
