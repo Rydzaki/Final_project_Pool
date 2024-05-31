@@ -41,7 +41,7 @@ jobs:
 
       # !  Installation Gradle
       - name: Build with Gradle
-        run: ./gradlew build > build.log 2>&1
+        run: ./gradlew build
 
       - name: Run tests
         run: ./gradlew test
