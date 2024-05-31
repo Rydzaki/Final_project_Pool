@@ -52,12 +52,12 @@ public class HomePage extends BasePage {
     List<WebElement> allLinks;
 
     public void checkBrokenLinks() {
-        int numberOfWindowsBefore = driver.getWindowHandles().size(); // Получаем количество открытых окон до проверки
+        int numberOfWindowsBefore = driver.getWindowHandles().size();
         List<String> linksToClick = new ArrayList<>();
 
         for (WebElement element : allLinks) {
             String url = element.getAttribute("href");
-            boolean verify = verifyLinks(url); // Проверяем статус ссылки
+            boolean verify = verifyLinks(url);
             if ((verify || url.isEmpty()) && url.contains("https")) {
                 linksToClick.add(url);
             }
@@ -68,7 +68,7 @@ public class HomePage extends BasePage {
         for (String url : linksToClick) {
             WebElement link = allLinks.stream().filter(e -> e.getAttribute("href").equals(url)).findFirst().orElse(null);
             if (link != null) {
-                wait.until(ExpectedConditions.elementToBeClickable(link)); // Ожидаем, пока элемент станет кликабельным
+                wait.until(ExpectedConditions.elementToBeClickable(link));
                 newTab.keyDown(Keys.CONTROL).click(link).keyUp(Keys.CONTROL).build().perform();
                 int numberOfWindowsAfter = driver.getWindowHandles().size();
                 if (numberOfWindowsAfter > numberOfWindowsBefore) {

@@ -17,7 +17,7 @@ public class GetAllProductsInCart extends TestBase {
 private Integer cartId = 3;
     @BeforeMethod
     public void precondition(){
-        loginSuccessTest("userOleg@mail.com","Qwerty007!"); //Антон, здесь напиши данные из своей дб
+        loginSuccessTest("martaZ@gm.com","Pass12345!");
         addToCart(3,1,1);
     }
 
@@ -26,11 +26,9 @@ private Integer cartId = 3;
         List<OrderCartProductDto> orderProductDtoList = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
-              //  .log().all()  // Логирование запроса
                 .when()
                 .get("/cart/" + cartId )
                 .then()
-                //.log().all()  // Логирование ответа
                 .assertThat().statusCode(200)
                 .extract()
                 .response()

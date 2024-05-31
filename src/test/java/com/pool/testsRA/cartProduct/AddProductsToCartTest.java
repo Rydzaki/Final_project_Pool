@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class AddProductsToCartTest extends TestBase {
 
-    int cartId = 5; //всегда новому пользователю +1 от текущего числа
+    int cartId = 5;
     int index = 5;
     @BeforeMethod
     public void precondition(){
@@ -30,7 +30,7 @@ public class AddProductsToCartTest extends TestBase {
         CartProductDto responseCartProduct = given()
             .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(("test" + index + "@mail.com"), PASSWORD).get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
-                .body(productToCart) // Отправка нового продукта в теле запроса
+                .body(productToCart)
                 .when()
                 .post("/cart/"+cartId +"/products")
                 .then()

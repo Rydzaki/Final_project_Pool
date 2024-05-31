@@ -26,14 +26,14 @@ public class AddNewProductTests extends TestBase {
         NewProductDto responseProduct = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
-                .body(newProduct) // Отправка нового продукта в теле запроса
+                .body(newProduct)
                 .when()
                 .post("/products/")
                 .then()
                 .assertThat()
                 .statusCode(201)
                 .body("title", equalTo(newProduct.getTitle()))
-                .body("price", equalTo((float) newProduct.getPrice())) // Преобразование double к float
+                .body("price", equalTo((float) newProduct.getPrice()))
                 .body("category", equalTo(newProduct.getCategory()))
                 .extract().response().as(NewProductDto.class);
 

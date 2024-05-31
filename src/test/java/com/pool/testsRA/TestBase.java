@@ -43,7 +43,7 @@ public class TestBase {
         RestAssured.basePath = "/api";
     }
 
-    // Получение идентификатора сессии
+
     public static Cookies getCookiesForLogin() {
         return given()
                 .contentType(ContentType.URLENC)
@@ -66,16 +66,15 @@ public class TestBase {
                 .extract().response().detailedCookies();
     }
 
-    // Печать в красивом формате JSON
+
     protected static void printJson(Object dto) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResponse = gson.toJson(dto);
 
-        // Вывод JSON-ответа с отступами и новыми строками
         System.out.println(jsonResponse);
     }
 
-    // Регистрация нового пользователя с предопределёнными данными
+
     public UserDto registerNewUser() {
         return given()
                 .contentType(ContentType.JSON)
@@ -86,7 +85,7 @@ public class TestBase {
                 .extract().response().as(UserDto.class);
     }
 
-    // Регистрация нового пользователя с указанным email
+
     public UserDto registerNewUser(String email) {
         NewUserDto customRegister = NewUserDto.builder()
                 .firstName("Bruce")
@@ -162,7 +161,7 @@ public class TestBase {
         CartProductDto responseCartProduct = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
-                .body(productToCart) // Отправка нового продукта в теле запроса
+                .body(productToCart)
                 .when()
                 .post("/cart/" + cartId + "/products")
                 .then()

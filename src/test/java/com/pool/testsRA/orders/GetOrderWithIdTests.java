@@ -35,7 +35,6 @@ public class GetOrderWithIdTests extends TestBase {
                 .setPrettyPrinting()
                 .create();
 
-        // Преобразуем объект OrdersDto в JSON строку
         String jsonRequest = gson.toJson(newOrder);
         OrderDto responseOrder = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
@@ -51,9 +50,8 @@ public class GetOrderWithIdTests extends TestBase {
                 .body("itemsCount", equalTo(newOrder.getItemsCount()))
                 .extract().response().as(OrderDto.class);
 
-        // Печатаем JSON ответа
-        printJson(responseOrder);
 
+        printJson(responseOrder);
 
 
     }

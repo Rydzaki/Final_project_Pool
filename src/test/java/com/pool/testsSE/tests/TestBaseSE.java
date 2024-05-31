@@ -36,7 +36,7 @@ public class TestBaseSE {
     @BeforeSuite
     @Parameters("browser")
     public void init(@Optional("chrome") String browser) {
-        // Инициализация драйвера в зависимости от переданного браузера
+
         switch (browser.toLowerCase()) {
             case "chrome":
                 driver = new ChromeDriver();

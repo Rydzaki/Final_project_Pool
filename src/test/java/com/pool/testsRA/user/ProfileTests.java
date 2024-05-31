@@ -35,7 +35,6 @@ public class ProfileTests extends TestBase {
                 .assertThat().statusCode(200)
                 .extract().response().as(UserDto.class);
 
-       // Создание Json с отступами и новыми строками
        printJson(dto);
    }
 

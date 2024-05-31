@@ -24,7 +24,6 @@ public class GetAllUsersTests extends TestBase {
                 .assertThat().statusCode(200)
                 .extract().response().jsonPath().getList( ".",UserDto.class);
 
-        // Создание Json с отступами и новыми строками
         printJson(listAllUsers);
     }
 }

@@ -22,7 +22,7 @@ public class OutTests extends TestBase {
     }
 
     @Test
-    public void logoutNegativeTest(){ // Странно что не передай в реквест все принимает
+    public void logoutNegativeTest(){
         ResponseDto dto = given()
                 .contentType(ContentType.URLENC)
                 .formParam("errorData", "errorData")

@@ -11,15 +11,12 @@ import static io.restassured.RestAssured.given;
 public class DeleteUserTests extends TestBase {
 
     UserDto newUser = registerNewUser("testDelete@mail.com");
-    Integer userId = newUser.getId(); // получаем его ID
+    Integer userId = newUser.getId();
 
 
     @Test
     public void deleteUserByIdSuccessTest() {
-        // Создаем нового пользователя с пометкой в email
 
-
-        // Удаление пользователя
         UserDto responseDelete = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
@@ -35,7 +32,7 @@ public class DeleteUserTests extends TestBase {
 
     @Test
     public void deleteUserByIdNegativeTest() {
-        // Проверить, что пользователь удален
+
         given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
@@ -43,6 +40,6 @@ public class DeleteUserTests extends TestBase {
                 .get("/users/" + userId)
                 .then()
                 .assertThat()
-                .statusCode(405); // Ожидаем, что пользователь не существует
+                .statusCode(405);
     }
 }

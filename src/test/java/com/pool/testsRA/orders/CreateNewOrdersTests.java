@@ -33,16 +33,15 @@ public class CreateNewOrdersTests extends TestBase {
                 .date("2024-05-20T22:27:31.444Z")
                 .build();
 
-        // Создаем объект Gson с зарегистрированным адаптером ZonedDateTime
+
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
                 .setPrettyPrinting()
                 .create();
 
-        // Преобразуем объект OrdersDto в JSON строку
+
         String jsonRequest = gson.toJson(newOrder);
 
-        // Отправляем POST запрос для создания нового заказа
         OrderDto responseOrder = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
@@ -58,7 +57,6 @@ public class CreateNewOrdersTests extends TestBase {
                 .body("itemsCount", equalTo(newOrder.getItemsCount()))
                 .extract().response().as(OrderDto.class);
 
-        // Печатаем JSON ответа
         printJson(responseOrder);
     }
 

@@ -37,6 +37,5 @@ public class DeleteProductWithIdTetst extends TestBase {
 
         printJson(responseProduct);
 
-        printJson(responseProduct);
     }
 }

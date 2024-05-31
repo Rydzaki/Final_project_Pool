@@ -12,11 +12,7 @@ import static io.restassured.RestAssured.given;
 
 public class LoginTests extends TestBase {
 
-//    RequestDto auth = RequestDto.builder()
-//            .username(EMAIL)
-//            .password(PASSWORD)
-//            .build();
-//
+
 
     @Test
     public void loginSuccessTest(){

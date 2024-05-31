@@ -83,7 +83,7 @@ public abstract class BasePage {
 
     public void closeTab() {
         String mainWindowHandle = driver.getWindowHandle();
-        // Ожидаем открытие новой вкладки и получаем дескрипторы всех вкладок
+
         Set<String> allWindowHandles = driver.getWindowHandles();
         ArrayList<String> tabs = new ArrayList<>(allWindowHandles);
         if (tabs.size() > 1) {

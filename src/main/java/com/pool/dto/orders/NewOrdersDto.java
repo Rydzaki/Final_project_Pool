@@ -19,6 +19,6 @@ public class NewOrdersDto {
     private Integer itemsCount;
     private String date;
 
-    //    private ZonedDateTime date; //todo
+
 
 }
