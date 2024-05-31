@@ -41,7 +41,7 @@ jobs:
 
       # !  Installation Gradle
       - name: Build with Gradle
-        run: ./gradlew build > build.log 2>&1
+        run: ./gradlew build
 
       - name: Run tests
         run: ./gradlew test
@@ -51,13 +51,13 @@ jobs:
         if: always()
         run: ls -R
 
-      # !  Upload Gradle build log
-      - name: ✅ 📦 Archive [Gradle build log]
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: gradle-build-log.zip
-          path: build.log
+#      # !  Upload Gradle build log
+#      - name: ✅ 📦 Archive [Gradle build log]
+#        uses: actions/upload-artifact@v2
+#        if: always()
+#        with:
+#          name: gradle-build-log.zip
+#          path: build.log
 
       # ! Upload Gradle Report
       - name: ✅ 📦 Archive [Test reports]
