@@ -1,0 +1,68 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: Choose target
+        required: true
+        default: 'all_tests'
+        type: choice
+        options:
+          - 'all_tests'
+          - 'login_users'
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # !  Installation Java
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # Опция также включает zulu, adopt, j9, etc.
+          java-version: '11'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # !  List of folders before tests
+      - name: ✅ 📂 List Directories before tests
+        if: always()
+        run: ls -R
+
+      # !  Installation Gradle
+      - name: Build with Gradle
+        run: ./gradlew build > build.log 2>&1
+
+      - name: Run tests
+        run: ./gradlew test
+
+      # !  List of folders after tests
+      - name: ✅ 📂 List Directories after tests
+        if: always()
+        run: ls -R
+
+      # !  Upload Gradle build log
+      - name: ✅ 📦 Archive [Gradle build log]
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: gradle-build-log.zip
+          path: build.log
+
+      # ! Upload Gradle Report
+      - name: ✅ 📦 Archive [Test reports]
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-reports
+          path: build/reports/tests/test/
