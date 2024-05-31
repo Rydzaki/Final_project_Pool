@@ -12,11 +12,6 @@ import static io.restassured.RestAssured.given;
 
 public class LoginTests extends TestBase {
 
-//    RequestDto auth = RequestDto.builder()
-//            .username(EMAIL)
-//            .password(PASSWORD)
-//            .build();
-//
 
     @Test
     public void loginSuccessTest(){
@@ -30,9 +25,6 @@ public class LoginTests extends TestBase {
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(ResponseDto.class);
-
-
-        System.out.println(dto.getMessage());
     }
 
     @Test 
@@ -46,8 +38,6 @@ public class LoginTests extends TestBase {
                 .then()
                 .assertThat().statusCode(401)
                 .extract().response().as(ResponseDto.class);
-
-        System.out.println(error.getMessage());
     }
 
     @Test
@@ -61,8 +51,6 @@ public class LoginTests extends TestBase {
                 .then()
                 .assertThat().statusCode(401)
                 .extract().response().as(ResponseDto.class);
-
-        System.out.println(error.getMessage());
     }
 
     @Test
@@ -76,8 +64,6 @@ public class LoginTests extends TestBase {
                 .then()
                 .assertThat().statusCode(401)
                 .extract().response().as(ResponseDto.class);
-
-        System.out.println(error.getMessage());
     }
     @Test
     public void loginWithoutPassword(){
@@ -90,8 +76,6 @@ public class LoginTests extends TestBase {
                 .then()
                 .assertThat().statusCode(401)
                 .extract().response().as(ResponseDto.class);
-
-        System.out.println(error.getMessage());
     }
     
     
