@@ -3,16 +3,23 @@ package com.pool.testsRA.orders;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pool.dto.orders.NewOrdersDto;
 import com.pool.dto.orders.OrderDto;
 
+import com.pool.dto.product.NewProductDto;
+import com.pool.dto.product.ProductDto;
 import com.pool.testsRA.TestBase;
 import com.pool.testsRA.ZonedDateTimeAdapter;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
+import org.openqa.selenium.devtools.v85.page.Page;
 import org.testng.annotations.Test;
 
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 import static io.restassured.RestAssured.given;
@@ -26,40 +33,37 @@ public class CreateNewOrdersTests extends TestBase {
     @Test
     public void createNewOrderTests() {
 
-        OrderDto newOrder = OrderDto.builder()
-                .userId(3)
-                .summa(25.77)
+        NewProductDto newProduct = createNewProduct();
+        Integer idProduct = newProduct.getId();
+
+        NewOrdersDto newOrder = NewOrdersDto.builder()
+                .userId(5)
+                .productId(idProduct)
                 .itemsCount(1)
-                .date("2024-05-20T22:27:31.444Z")
+                .date(DATE_NOW)
                 .build();
+        try {
+            OrderDto responseOrder = given()
+                    .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                    .contentType(ContentType.JSON)
+                    .body(newOrder)
+                    .log().all()
+                    .when()
+                    .post("/orders")
+                    .then()
+                    .log().all()
+                    .assertThat()
+                    .statusCode(201)
+                    .body("userId", notNullValue())
+                    .body("productId", equalTo(newOrder.getUserId()))
+                    .body("itemsCount", equalTo(newOrder.getItemsCount()))
+                    .extract().response().as(OrderDto.class);
 
-        // Создаем объект Gson с зарегистрированным адаптером ZonedDateTime
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
-                .setPrettyPrinting()
-                .create();
-
-        // Преобразуем объект OrdersDto в JSON строку
-        String jsonRequest = gson.toJson(newOrder);
-
-        // Отправляем POST запрос для создания нового заказа
-        OrderDto responseOrder = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
-                .contentType(ContentType.JSON)
-                .body(jsonRequest)
-                .when()
-                .post("/orders")
-                .then()
-                .assertThat()
-                .statusCode(201)
-                .body("id", notNullValue())
-                .body("userId", equalTo(newOrder.getUserId()))
-                .body("summa", equalTo((float) newOrder.getSumma()))
-                .body("itemsCount", equalTo(newOrder.getItemsCount()))
-                .extract().response().as(OrderDto.class);
-
-        // Печатаем JSON ответа
-        printJson(responseOrder);
+            printJson(responseOrder);
+            deleteProduct(idProduct);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

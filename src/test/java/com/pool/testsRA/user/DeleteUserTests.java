@@ -10,8 +10,6 @@ import static io.restassured.RestAssured.given;
 
 public class DeleteUserTests extends TestBase {
 
-    // получаем его ID
-
     @Test
     public void deleteUserByIdSuccessTest() {
 

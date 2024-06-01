@@ -13,12 +13,9 @@ import lombok.ToString;
 
 public class NewOrdersDto {
 
-    private Integer id;
     private Integer userId;
-    private double summa;
-    private Integer itemsCount;
+    private Integer productId;
+    private double itemsCount;
     private String date;
-
-    //    private ZonedDateTime date; //todo
 
 }

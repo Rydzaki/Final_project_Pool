@@ -21,8 +21,6 @@ public class AddNewProductTests extends TestBase {
                 .category("Chemistry")
                 .build();
 
-
-
         NewProductDto responseProduct = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
@@ -33,7 +31,7 @@ public class AddNewProductTests extends TestBase {
                 .assertThat()
                 .statusCode(201)
                 .body("title", equalTo(newProduct.getTitle()))
-                .body("price", equalTo((float) newProduct.getPrice())) // Преобразование double к float
+                .body("price", equalTo((float) newProduct.getPrice()))
                 .body("category", equalTo(newProduct.getCategory()))
                 .extract().response().as(NewProductDto.class);
 

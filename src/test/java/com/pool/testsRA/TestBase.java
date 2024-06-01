@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pool.dto.ResponseDto;
 import com.pool.dto.cartProduct.CartProductDto;
+import com.pool.dto.orders.NewOrdersDto;
+import com.pool.dto.orders.OrderDto;
+import com.pool.dto.product.NewProductDto;
+import com.pool.dto.product.ProductDto;
 import com.pool.dto.user.NewUserDto;
 import com.pool.dto.user.UserDto;
 import io.restassured.RestAssured;
@@ -12,19 +16,23 @@ import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
 import org.testng.annotations.BeforeMethod;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class TestBase {
+
+    static Instant now = Instant.now();
 
     public static final String EMAIL = "ushakov_test@mail.com";
     public static final String EMAIL_INVALID = "@mail.com";
     public static final String PASSWORD = "Pass12345!";
     public static final String PASSWORD_INVALID = "Pass123455";
     public static final String SESSION_ID = "JSESSIONID";
-
-
-
+    public static final String DATE_NOW = DateTimeFormatter.ISO_INSTANT.format(now);
 
     String n = "1";
     public NewUserDto register = NewUserDto.builder()
@@ -85,7 +93,6 @@ public class TestBase {
                 .extract().response().as(UserDto.class);
     }
 
-    // Регистрация нового пользователя с указанным email
     public UserDto registerNewUser(String email) {
         NewUserDto customRegister = NewUserDto.builder()
                 .firstName("Bruce")
@@ -105,8 +112,7 @@ public class TestBase {
     }
 
 
-
-    public UserDto createNewUserAndLogin(String email){
+    public UserDto createNewUserAndLogin(String email) {
         NewUserDto user = NewUserDto.builder()
                 .firstName("Bruce")
                 .lastName("Wayne")
@@ -115,7 +121,7 @@ public class TestBase {
                 .password("Pass12345!")
                 .build();
 
-        UserDto emailRequest =  given()
+        UserDto emailRequest = given()
                 .contentType(ContentType.JSON)
                 .body(user)
                 .when()
@@ -152,7 +158,7 @@ public class TestBase {
         System.out.println(dto.getMessage());
     }
 
-    public  CartProductDto addToCart(int cartId, int productId, int quantity) {
+    public CartProductDto addToCart(int cartId, int productId, int quantity) {
         CartProductDto productToCart = CartProductDto.builder()
                 .productId(productId)
                 .quantity(quantity)
@@ -177,4 +183,54 @@ public class TestBase {
         return responseCartProduct;
 
     }
+
+    public NewProductDto createNewProduct() {
+        NewProductDto newProduct = NewProductDto.builder()
+                .title("HCL")
+                .price(100)
+                .category("Chemistry")
+                .build();
+        return given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .contentType(ContentType.JSON)
+                .body(newProduct)
+                .when()
+                .post("/products/")
+                .then()
+                .extract().response().as(NewProductDto.class);
+
+
     }
+
+    public ProductDto deleteProduct(Integer idProduct){
+        return given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .when()
+                .delete("/products/" + idProduct)
+                .then()
+                .extract().response().as(ProductDto.class);
+    }
+
+    public OrderDto createNewOrder() {
+
+        NewProductDto newProduct = createNewProduct();
+        Integer idProduct = newProduct.getId();
+        NewOrdersDto newOrder = NewOrdersDto.builder()
+                .userId(5)
+                .productId(idProduct)
+                .itemsCount(1)
+                .date(DATE_NOW)
+                .build();
+
+        return given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .contentType(ContentType.JSON)
+                .body(newOrder)
+                .when()
+                .post("/orders")
+                .then()
+                .extract().response().as(OrderDto.class);
+
+    }
+
+}

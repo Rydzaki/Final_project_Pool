@@ -27,7 +27,6 @@ public class UpdateOrdersWithId extends TestBase {
 
         NewOrdersDto newOrder = NewOrdersDto.builder()
                 .userId(ordersId)
-                .summa(2000)
                 .itemsCount(3)
                 .date(date) // Дата передается как строка
                 .build();
@@ -52,7 +51,6 @@ public class UpdateOrdersWithId extends TestBase {
                 .statusCode(200)
                 .body("id", notNullValue())
                 .body("userId", equalTo(newOrder.getUserId()))
-                .body("summa", equalTo((float) newOrder.getSumma()))
                 .body("itemsCount", equalTo(newOrder.getItemsCount()))
                 .body("date", equalTo(newOrder.getDate())) // Проверяем дату
                 .extract().response().as(OrderDto.class);

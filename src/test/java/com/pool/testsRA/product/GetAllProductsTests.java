@@ -25,7 +25,7 @@ public class GetAllProductsTests extends TestBase {
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("id", notNullValue()) // Проверка, что id не null
+                .body("id", notNullValue())
                 .extract().response().jsonPath().getList(".", ProductDto.class);
         printJson(responseProducts);
 

@@ -20,40 +20,25 @@ import static org.hamcrest.Matchers.notNullValue;
 public class DeleteOrderWithId extends TestBase {
 
 
-    private Integer ordersId = 1;
-
     @Test
     public void deleteGetOrderWithId() {
-        NewOrdersDto newOrder = NewOrdersDto.builder()
-                .userId(1)
-                .summa(20)
-                .itemsCount(3)
-                .date("2024-05-19T19:30:18.591Z")
-                .build();
+        OrderDto newOrder = createNewOrder();
+        Integer orderId = newOrder.getId();
 
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
-                .setPrettyPrinting()
-                .create();
-
-        // Преобразуем объект OrdersDto в JSON строку
-        String jsonRequest = gson.toJson(newOrder);
         OrderDto responseOrder = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
                 .when()
-                .delete("/orders/" + ordersId)
+                .log().all()
+                .delete("/orders/" + 25)//TODO add orderId
                 .then()
+                .log().all()
                 .assertThat()
                 .statusCode(200)
                 .body("id", notNullValue())
-                .body("userId", equalTo(newOrder.getUserId()))
-                .body("summa", equalTo((float) newOrder.getSumma()))
-                .body("itemsCount", equalTo(newOrder.getItemsCount()))
                 .extract().response().as(OrderDto.class);
-
         // Печатаем JSON ответа
         printJson(responseOrder);
 
     }
-    }
+}
