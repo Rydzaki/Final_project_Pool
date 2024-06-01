@@ -46,7 +46,6 @@ public class UpdateUserTests extends TestBase {
                 .body("role", equalTo(userUpdate.getRole()))
                 .body("phoneNumber", equalTo(userUpdate.getPhoneNumber()))
                 .extract().response().as(UserDto.class);
-
         printJson(responseUpdate);
     }
 }

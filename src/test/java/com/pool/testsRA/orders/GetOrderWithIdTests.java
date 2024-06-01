@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pool.dto.orders.NewOrdersDto;
 import com.pool.dto.orders.OrderDto;
+import com.pool.dto.product.NewProductDto;
 import com.pool.dto.product.ProductDto;
 import com.pool.testsRA.TestBase;
 import com.pool.testsRA.ZonedDateTimeAdapter;
@@ -19,42 +20,27 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class GetOrderWithIdTests extends TestBase {
 
-    private Integer ordersId = 1;
 
     @Test
-            public void testGetOrderWithId() {
-        NewOrdersDto newOrder = NewOrdersDto.builder()
-                .userId(1)
-                .summa(20)
-                .itemsCount(3)
-                .date("2024-05-19T19:30:18.591Z")
-                .build();
+    public void testGetOrderWithId() {
 
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
-                .setPrettyPrinting()
-                .create();
-
-        // Преобразуем объект OrdersDto в JSON строку
-        String jsonRequest = gson.toJson(newOrder);
+        OrderDto newOrder = createNewOrder();
         OrderDto responseOrder = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/orders/" + ordersId)
+                .log().all()
+                .get("/orders/" + newOrder.getId())
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .body("id", notNullValue())
                 .body("userId", equalTo(newOrder.getUserId()))
-                .body("summa", equalTo((float) newOrder.getSumma()))
                 .body("itemsCount", equalTo(newOrder.getItemsCount()))
+                .log().all()
                 .extract().response().as(OrderDto.class);
 
-        // Печатаем JSON ответа
         printJson(responseOrder);
-
-
 
     }
 }

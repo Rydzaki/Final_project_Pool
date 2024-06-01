@@ -1,6 +1,7 @@
 package com.pool.testsRA.product;
 
 import com.google.gson.Gson;
+import com.pool.dto.product.NewProductDto;
 import com.pool.dto.product.ProductDto;
 import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
@@ -12,26 +13,23 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class UpdateProductTests extends TestBase {
 
-    private Integer idProduct = 2;
 
     @Test
     public void getProductByIdSuccessTest() {
+
+        NewProductDto newProduct = createNewProduct();
+        Integer idProduct = newProduct.getId();
 
         ProductDto productUpdate = ProductDto.builder()
                 .id(idProduct)
                 .title("Update")
                 .price(100.99)
-                .category("услуга/химия")
+                .category(newProduct.getCategory())
                 .build();
-
-        Gson gson = new Gson();
-        String jsonBodyUpdateProduct = gson.toJson(productUpdate);
-
-
 
         ProductDto responseProduct = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
-                .body(jsonBodyUpdateProduct)
+                .body(productUpdate)
                 .contentType(ContentType.JSON)
                 .when()
                 .put("/products/" + idProduct)
@@ -46,5 +44,6 @@ public class UpdateProductTests extends TestBase {
                 .extract().response().as(ProductDto.class);
 
         printJson(responseProduct);
+        deleteProduct(newProduct.getId());
     }
 }

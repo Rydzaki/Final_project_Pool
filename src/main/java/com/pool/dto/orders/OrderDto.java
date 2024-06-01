@@ -13,11 +13,14 @@ import java.util.List;
 @Builder
 
 public class OrderDto {
+    private Integer id;
     private Integer userId;
-    private double summa;
+    private Integer productId;
+    private String category;
     private Integer itemsCount;
     private String date;
     private List<OrderProductDto> products;
+    private double summa;
 
 
 }

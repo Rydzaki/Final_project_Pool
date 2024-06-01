@@ -18,6 +18,7 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 
 public class GetAllOrdersTests extends TestBase {
+
     @Test
     public void getAllOrdersPositiveTest() {
         try {
@@ -29,9 +30,11 @@ public class GetAllOrdersTests extends TestBase {
             String jsonResponse = given()
                     .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                     .contentType(ContentType.JSON)
+                    .log().all()
                     .when()
                     .get("/orders")
                     .then()
+                    .log().all()
                     .assertThat()
                     .statusCode(200)
                     .extract().response().asString();
