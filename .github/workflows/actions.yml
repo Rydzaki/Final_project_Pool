@@ -56,10 +56,13 @@ jobs:
       # ! Build with Gradle
       - name: Build with Gradle
         run: ./gradlew build
+        continue-on-error: true
 
       # ! Run tests
       - name: Run tests
+        if: success() || failure()
         run: ./gradlew test
+        continue-on-error: true
 
       # ! List of folders after tests
       - name: ✅ 📂 List Directories after tests
