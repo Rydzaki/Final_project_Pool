@@ -69,4 +69,6 @@ public class RegistrationPage extends BasePage{
         Assert.assertEquals(message, alertText);
     }
 
+
+
 }

@@ -19,7 +19,7 @@ public class MyProfileTests extends TestBaseSE{
     public void myProfileTest() {
         MyProfilePage profilePage = new MyProfilePage(driver);
         Assert.assertTrue(profilePage.isDataInProfileVisible());
-        Assert.assertEquals(profilePage.getFirstName(), "Имя: Максим", "Имя в профиле совпадает с ожидаемым");
-        Assert.assertEquals(profilePage.getLastName(), "Фамилия: Тестов", "Фамилия в профиле совпадает с ожидаемой");
+        Assert.assertEquals(profilePage.getFirstName(), "Имя: Test", "Имя в профиле совпадает с ожидаемым");
+        Assert.assertEquals(profilePage.getLastName(), "Фамилия: User", "Фамилия в профиле совпадает с ожидаемой");
     }
 }

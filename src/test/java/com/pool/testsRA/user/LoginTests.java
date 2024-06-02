@@ -2,6 +2,7 @@ package com.pool.testsRA.user;
 
 
 import com.pool.dto.ResponseDto;
+import com.pool.dto.user.UserDto;
 import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
@@ -15,16 +16,17 @@ public class LoginTests extends TestBase {
 
     @Test
     public void loginSuccessTest(){
+        //UserDto newUser = registerNewUser(EMAIL_USER);
         ResponseDto dto = given()
                 .contentType(ContentType.URLENC)
                 .formParam("username", EMAIL)
                 .formParam("password", PASSWORD)
-                /*.body(auth)*/
                 .when()
                 .post("/login")
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(ResponseDto.class);
+        //deleteNewUser(newUser);
     }
 
     @Test 

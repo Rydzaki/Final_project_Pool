@@ -23,6 +23,7 @@ public class HomePage extends BasePage {
     WebElement enter;
 
     public LoginPage selectEnterBtn() {
+        pause(500);
         click(enter);
         return new LoginPage(driver);
     }
@@ -80,5 +81,10 @@ public class HomePage extends BasePage {
             }
         }
     }
-
+    @FindBy(css = "img[src=/assets/logo-BlUHVTcQ.png] ")
+    WebElement logo;
+    public void pushLogo() {
+        pause(500);
+        click(logo);
+    }
 }

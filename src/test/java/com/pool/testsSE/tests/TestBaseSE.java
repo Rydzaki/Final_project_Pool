@@ -2,6 +2,8 @@ package com.pool.testsSE.tests;
 
 
 import com.google.common.io.Files;
+import com.pool.pagesSE.HomePage;
+import com.pool.pagesSE.RegistrationPage;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -33,10 +35,9 @@ public class TestBaseSE {
     Logger logger = LoggerFactory.getLogger(TestBaseSE.class);
 
 
-    @BeforeSuite
+    @BeforeMethod
     @Parameters("browser")
     public void init(@Optional("chrome") String browser) {
-        // Инициализация драйвера в зависимости от переданного браузера
         switch (browser.toLowerCase()) {
             case "chrome":
                 driver = new ChromeDriver();
@@ -51,12 +52,12 @@ public class TestBaseSE {
                 throw new IllegalArgumentException("Browser not supported: " + browser);
         }
         //driver.get("http://localhost:5173"); //TODO
-        driver.get("https://cohort-34-pool-app-unpfj.ondigitalocean.app"); //TODO
+        driver.get("https://cohort-34-pool-app-unpfj.ondigitalocean.app/#/"); //TODO
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
-    @AfterSuite(enabled = false)
+    @AfterMethod(enabled = true)
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -64,9 +65,10 @@ public class TestBaseSE {
     }
 
     @BeforeMethod
-    public void startTest(Method method, Object[] p){
+    public void startTest(Method method, Object[] p) {
         logger.info("Start test: {} with data {}", method.getName(), Arrays.asList(p));
     }
+
     @AfterMethod
     public void stopTest(ITestResult result) {
         if (result.isSuccess()) {
@@ -78,7 +80,7 @@ public class TestBaseSE {
         logger.info("=============================================");
     }
 
-    public String takeScreenShot(){
+    public String takeScreenShot() {
         File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
         File screenshot = new File("screenshots/screen-" + System.currentTimeMillis() + ".png");
@@ -92,7 +94,9 @@ public class TestBaseSE {
 
     }
 
-
-
-
+    public void registrationNewUser(String email) {
+        RegistrationPage registrationPage = new RegistrationPage(driver);
+        registrationPage.fillRegistrationForm("Anna", "Testova", email, VALID_PASSWORD, VALID_PASSWORD, "+79213334567");
+        new HomePage(driver).selectEnterBtn();
+    }
 }
