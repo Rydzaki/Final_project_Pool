@@ -30,14 +30,13 @@ public class DeleteOrderWithId extends TestBase {
                 .contentType(ContentType.JSON)
                 .when()
                 .log().all()
-                .delete("/orders/" + 25)//TODO add orderId
+                .delete("/orders/" + orderId)//TODO add orderId
                 .then()
                 .log().all()
                 .assertThat()
                 .statusCode(200)
                 .body("id", notNullValue())
                 .extract().response().as(OrderDto.class);
-        // Печатаем JSON ответа
         printJson(responseOrder);
 
     }

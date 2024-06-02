@@ -32,6 +32,7 @@ public class ProfileTests extends TestBase {
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(UserDto.class);
+        printJson(dto);
    }
 
 

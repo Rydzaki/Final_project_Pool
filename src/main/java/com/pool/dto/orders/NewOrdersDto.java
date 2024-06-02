@@ -14,8 +14,8 @@ import lombok.ToString;
 public class NewOrdersDto {
 
     private Integer userId;
-    private Integer productId;
-    private double itemsCount;
+    private double summa;
+    private Integer itemsCount;
     private String date;
 
 }

@@ -12,33 +12,34 @@ public class RegisterTests extends TestBase {
 
 
     @Test
-    public void registerSuccessTest(){
+    public void registerSuccessTest() {
         UserDto user = given()
                 .contentType(ContentType.JSON)
                 .body(register)
                 .when()
                 .post("users/register")
                 .then()
-                .assertThat().statusCode(201).extract().response().as(UserDto.class);
-        System.out.println(user.getId());
-        System.out.println(user.getEmail());
+                .assertThat().statusCode(201)
+                .extract().response().as(UserDto.class);
+        deleteNewUser(user);
     }
 
     @Test
-    public void registrationWithExistingEmailTest(){
+    public void registrationWithExistingEmailTest() {
+        UserDto newUser = createNewUserAndLogin(register.getEmail());
         UserDto user = given()
                 .contentType(ContentType.JSON)
                 .body(register)
                 .when()
                 .post("users/register")
                 .then()
-                .assertThat().statusCode(409).extract().response().as(UserDto.class);
-        System.out.println(user.getMessage());
-
+                .assertThat().statusCode(409)
+                .extract().response().as(UserDto.class);
+        deleteNewUser(newUser);
     }
 
     @Test
-    public void registrationWithErrorEmailTest(){
+    public void registrationWithErrorEmailTest() {
 
         NewUserDto errorMail = NewUserDto.builder()
                 .email("@mail.com")
@@ -51,8 +52,6 @@ public class RegisterTests extends TestBase {
                 .post("users/register")
                 .then()
                 .assertThat().statusCode(400).extract().response().as(UserDto.class);
-        System.out.println(user.getMessage());
-
     }
-    
+
 }

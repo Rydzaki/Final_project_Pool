@@ -19,7 +19,7 @@ public class UpdateUserTests extends TestBase {
     @Test
     public void updateUserByIdSuccessTest() {
 
-        UserDto newUser = registerNewUser("test007@mail.com");
+        UserDto newUser = registerNewUser("testupdate@mail.com");
         Integer idNewUser = newUser.getId();
 
         UserDto userUpdate = UserDto.builder()
@@ -47,5 +47,6 @@ public class UpdateUserTests extends TestBase {
                 .body("phoneNumber", equalTo(userUpdate.getPhoneNumber()))
                 .extract().response().as(UserDto.class);
         printJson(responseUpdate);
+        deleteNewUser(newUser);
     }
 }
