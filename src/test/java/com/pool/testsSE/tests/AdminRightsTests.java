@@ -12,7 +12,7 @@ public class AdminRightsTests extends TestBaseSE{
     public void precondition() {
 
         new HomePage(driver).selectEnterBtn();
-        new LoginPage(driver).loginData("ushakov_test@mail.com","Pass12345!");
+        new LoginPage(driver).loginData(VALID_MAIL,VALID_PASSWORD);
         new LoginPage(driver).myProfilePage();
     }
 
