@@ -34,30 +34,37 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # !  List of folders before tests
+      # ! Installation of Chrome and ChromeDriver
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install ChromeDriver
+        run: |
+          CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
+          wget -N https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip -d /home/runner
+          sudo mv -f /home/runner/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      # ! List of folders before tests
       - name: ✅ 📂 List Directories before tests
         if: always()
         run: ls -R
 
-      # !  Installation Gradle
+      # ! Build with Gradle
       - name: Build with Gradle
         run: ./gradlew build
 
+      # ! Run tests
       - name: Run tests
         run: ./gradlew test
 
-      # !  List of folders after tests
+      # ! List of folders after tests
       - name: ✅ 📂 List Directories after tests
         if: always()
         run: ls -R
-
-#      # !  Upload Gradle build log
-#      - name: ✅ 📦 Archive [Gradle build log]
-#        uses: actions/upload-artifact@v2
-#        if: always()
-#        with:
-#          name: gradle-build-log.zip
-#          path: build.log
 
       # ! Upload Gradle Report
       - name: ✅ 📦 Archive [Test reports]
