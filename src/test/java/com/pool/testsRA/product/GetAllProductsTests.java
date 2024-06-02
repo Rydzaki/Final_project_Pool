@@ -15,16 +15,18 @@ import static org.hamcrest.Matchers.notNullValue;
 public class GetAllProductsTests extends TestBase {
 
     @Test
-            public void getAllProductsTest() {
+    public void getAllProductsTest() {
 
         List<ProductDto> responseProducts = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(EMAIL_USER, PASSWORD).get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
                 .when()
+                .log().all()
                 .get("/products")
                 .then()
                 .assertThat()
                 .statusCode(200)
+                .log().all()
                 .body("id", notNullValue())
                 .extract().response().jsonPath().getList(".", ProductDto.class);
         printJson(responseProducts);

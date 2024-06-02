@@ -28,6 +28,7 @@ public class TestBase {
     static Instant now = Instant.now();
 
     public static final String EMAIL = "ushakov_test@mail.com";
+    public static final String EMAIL_USER = "ushakov_test_user@mail.com";
     public static final String EMAIL_INVALID = "@mail.com";
     public static final String PASSWORD = "Pass12345!";
     public static final String PASSWORD_INVALID = "Pass123455";
@@ -45,12 +46,11 @@ public class TestBase {
 
     @BeforeMethod
     public void init() {
-        RestAssured.baseURI = "http://localhost:8080";
-        //RestAssured.baseURI = "https://cohort-34-pool-app-unpfj.ondigitalocean.app";
+        //RestAssured.baseURI = "http://localhost:8080";
+        RestAssured.baseURI = "https://cohort-34-pool-app-unpfj.ondigitalocean.app";
         RestAssured.basePath = "/api";
     }
 
-    // Получение идентификатора сессии
     public static Cookies getCookiesForLogin() {
         return given()
                 .contentType(ContentType.URLENC)
@@ -82,17 +82,6 @@ public class TestBase {
         System.out.println(jsonResponse);
     }
 
-    // Регистрация нового пользователя с предопределёнными данными
-    public UserDto registerNewUser() {
-        return given()
-                .contentType(ContentType.JSON)
-                .body(register)
-                .when()
-                .post("users/register")
-                .then()
-                .extract().response().as(UserDto.class);
-    }
-
     public UserDto registerNewUser(String email) {
         NewUserDto customRegister = NewUserDto.builder()
                 .firstName("Bruce")
@@ -110,6 +99,17 @@ public class TestBase {
                 .then()
                 .extract().response().as(UserDto.class);
     }
+
+    public void deleteNewUser(UserDto newUser){
+        given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .contentType(ContentType.JSON)
+                .when()
+                .delete("/users/" + newUser.getId())
+                .then()
+                .extract().response().as(UserDto.class);
+    }
+
 
 
     public UserDto createNewUserAndLogin(String email) {
@@ -139,6 +139,17 @@ public class TestBase {
                 .extract().response().as(ResponseDto.class);
 
         return emailRequest;
+    }
+
+    public UserDto getUserDataFromAdmin() {
+
+        return given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(EMAIL, PASSWORD).get(SESSION_ID).getValue()).build())
+                .when()
+                .get("/users/profile")
+                .then()
+                .extract().response().as(UserDto.class);
+
     }
 
     public void loginSuccessTest(String email, String password) {
@@ -214,10 +225,9 @@ public class TestBase {
     public OrderDto createNewOrder() {
 
         NewProductDto newProduct = createNewProduct();
-        Integer idProduct = newProduct.getId();
         NewOrdersDto newOrder = NewOrdersDto.builder()
-                .userId(5)
-                .productId(idProduct)
+                .userId(getUserDataFromAdmin().getId())
+                .summa(newProduct.getPrice())
                 .itemsCount(1)
                 .date(DATE_NOW)
                 .build();

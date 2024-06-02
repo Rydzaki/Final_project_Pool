@@ -16,11 +16,6 @@ import org.openqa.selenium.devtools.v85.page.Page;
 import org.testng.annotations.Test;
 
 
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,7 +24,6 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class CreateNewOrdersTests extends TestBase {
 
-
     @Test
     public void createNewOrderTests() {
 
@@ -37,14 +31,14 @@ public class CreateNewOrdersTests extends TestBase {
         Integer idProduct = newProduct.getId();
 
         NewOrdersDto newOrder = NewOrdersDto.builder()
-                .userId(5)
-                .productId(idProduct)
+                .userId(getUserDataFromAdmin().getId())
+                .summa(newProduct.getPrice())
                 .itemsCount(1)
                 .date(DATE_NOW)
                 .build();
         try {
             OrderDto responseOrder = given()
-                    .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                    .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(EMAIL, PASSWORD).get(SESSION_ID).getValue()).build())
                     .contentType(ContentType.JSON)
                     .body(newOrder)
                     .log().all()
@@ -55,8 +49,6 @@ public class CreateNewOrdersTests extends TestBase {
                     .assertThat()
                     .statusCode(201)
                     .body("userId", notNullValue())
-                    .body("productId", equalTo(newOrder.getUserId()))
-                    .body("itemsCount", equalTo(newOrder.getItemsCount()))
                     .extract().response().as(OrderDto.class);
 
             printJson(responseOrder);

@@ -15,31 +15,20 @@ public class DeleteUserTests extends TestBase {
 
         UserDto newUser = registerNewUser("testDelete@mail.com");
         Integer idNewUser = newUser.getId();
+        System.out.println(idNewUser);
 
-        // Удаление пользователя
         UserDto responseDelete = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
+                .log().all()
                 .when()
                 .delete("/users/" + idNewUser)
                 .then()
                 .assertThat()
                 .statusCode(200)
+                .log().all()
                 .extract().response().as(UserDto.class);
 
         printJson(responseDelete);
     }
-
-//    @Test
-//    public void deleteUserByIdNegativeTest() {
-//        // Проверить, что пользователь удален
-//        given()
-//                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
-//                .contentType(ContentType.JSON)
-//                .when()
-//                .get("/users/" + userId)
-//                .then()
-//                .assertThat()
-//                .statusCode(405); // Ожидаем, что пользователь не существует
-//    }
 }
