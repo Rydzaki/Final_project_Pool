@@ -11,7 +11,7 @@ import static io.restassured.RestAssured.given;
 public class RegisterTests extends TestBase {
 
 
-    @Test
+    @Test(priority = 1)
     public void registerSuccessTest() {
         UserDto user = given()
                 .contentType(ContentType.JSON)
@@ -24,7 +24,7 @@ public class RegisterTests extends TestBase {
         deleteNewUser(user);
     }
 
-    @Test
+    @Test(priority = 2)
     public void registrationWithExistingEmailTest() {
         UserDto newUser = createNewUserAndLogin(register.getEmail());
         UserDto user = given()
@@ -38,7 +38,7 @@ public class RegisterTests extends TestBase {
         deleteNewUser(newUser);
     }
 
-    @Test
+    @Test(priority = 3)
     public void registrationWithErrorEmailTest() {
 
         NewUserDto errorMail = NewUserDto.builder()
