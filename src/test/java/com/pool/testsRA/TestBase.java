@@ -240,7 +240,23 @@ public class TestBase {
                 .post("/orders")
                 .then()
                 .extract().response().as(OrderDto.class);
+    }
 
+    public CartProductDto createCartProduct(UserDto newUser, NewProductDto newProduct) {
+                CartProductDto productToCart = CartProductDto.builder()
+                .productId(newProduct.getId())
+                .quantity(1)
+                .build();
+
+        return given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin((newUser.getEmail()), PASSWORD).get(SESSION_ID).getValue()).build())
+                .contentType(ContentType.JSON)
+                .body(productToCart)
+                .when()
+                .post("/cart/" + newUser.getId() + "/products")
+                .then()
+                .assertThat()
+                .extract().response().as(CartProductDto.class);
     }
 
 }
