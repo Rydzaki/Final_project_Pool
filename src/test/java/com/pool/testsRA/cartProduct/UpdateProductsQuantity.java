@@ -1,7 +1,10 @@
 package com.pool.testsRA.cartProduct;
 
 import com.google.gson.Gson;
+import com.pool.dto.cartProduct.CartProductDto;
 import com.pool.dto.orderProductDto.OrderCartProductDto;
+import com.pool.dto.product.NewProductDto;
+import com.pool.dto.user.UserDto;
 import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
@@ -12,38 +15,31 @@ import static io.restassured.RestAssured.given;
 
 public class UpdateProductsQuantity extends TestBase {
 
-    private Integer cartId = 3;
-    private Integer cartProductId = 12;
-
-    @BeforeMethod
-    public void precondition(){
-        loginSuccessTest("userOleg@mail.com","Qwerty007!");
-        addToCart(3,1,1);
-    }
-
     @Test
     public void getProductByIdSuccessTest() {
 
-        OrderCartProductDto updateQuantity = OrderCartProductDto.builder()
-                .id(cartProductId)
-                .quantity(2)
-                .build();
+        UserDto newUser = registerNewUser("testForUpdateProductsinCart@mail.com");
+        NewProductDto newProduct = createNewProduct();
+        CartProductDto newCartProduct = createCartProduct(newUser, newProduct);
 
-        Gson gson = new Gson();
-        String jsonBodyUpdateProduct = gson.toJson(updateQuantity);
+        OrderCartProductDto updateQuantity = OrderCartProductDto.builder()
+                .id(newProduct.getId())
+                .quantity(100)
+                .build();
 
         OrderCartProductDto responseProduct = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
-                .body(jsonBodyUpdateProduct)
+                .body(updateQuantity)
                 .contentType(ContentType.JSON)
                 .when()
-                .put("/cart/" + cartId +"/cart-products/"+ cartProductId)
+                .put("/cart/" + newCartProduct.getCartId() +"/cart-products/"+ newCartProduct.getId())
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .extract().response().as(OrderCartProductDto.class);
 
         printJson(responseProduct);
+        deleteNewUser(newUser);
     }
 }
 

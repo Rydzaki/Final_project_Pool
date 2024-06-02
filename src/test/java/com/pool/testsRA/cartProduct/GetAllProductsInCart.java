@@ -1,6 +1,9 @@
 package com.pool.testsRA.cartProduct;
 
+import com.pool.dto.cartProduct.CartProductDto;
 import com.pool.dto.orderProductDto.OrderCartProductDto;
+import com.pool.dto.product.NewProductDto;
+import com.pool.dto.user.UserDto;
 import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
@@ -14,23 +17,21 @@ import static io.restassured.RestAssured.given;
 
 public class GetAllProductsInCart extends TestBase {
 
-private Integer cartId = 3;
-    @BeforeMethod
-    public void precondition(){
-        loginSuccessTest("userOleg@mail.com","Qwerty007!"); //Антон, здесь напиши данные из своей дб
-        addToCart(3,1,1);
-    }
 
     @Test
     public void getAllProductsInCartTest() {
+
+        UserDto newUser = registerNewUser("testForAllProductsinCart@mail.com");
+        NewProductDto newProduct = createNewProduct();
+        CartProductDto newCartProduct = createCartProduct(newUser, newProduct);
+
         List<OrderCartProductDto> orderProductDtoList = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(newUser.getEmail(), PASSWORD).get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
-              //  .log().all()  // Логирование запроса
+                .log().all()
                 .when()
-                .get("/cart/" + cartId )
+                .get("/cart/" + newCartProduct.getCartId())
                 .then()
-                //.log().all()  // Логирование ответа
                 .assertThat().statusCode(200)
                 .extract()
                 .response()
@@ -38,6 +39,7 @@ private Integer cartId = 3;
                 .getList(".", OrderCartProductDto.class);
 
         printJson(orderProductDtoList);
+        deleteNewUser(newUser);
 
 
     }
