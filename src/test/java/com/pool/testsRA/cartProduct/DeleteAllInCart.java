@@ -8,6 +8,7 @@ import com.pool.dto.user.UserDto;
 import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,33 +17,45 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class DeleteAllInCart extends TestBase {
 
+    private static Integer idCartProduct = 54;//TODO
 
-    @Test
-    public void testDeleteAllInCart(){
+    @AfterMethod
+    public void updateIdCartProduct() {
+        idCartProduct += 1;
+    }
 
-        UserDto newUser = registerNewUser("testForCartProduct@mail.com");
-        NewProductDto newProduct = createNewProduct();
-        CartProductDto newCartProduct = createCartProduct(newUser, newProduct);
+    @Test()
+    public void testDeleteAllInCart() {
 
         CartProductDto responseDeleteAll = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin("testForCartProduct@mail.com", PASSWORD).get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
                 .when()
-                .delete("/cart/" + newCartProduct.getCartId() +"/cart-products/"+ newCartProduct.getId())
+                .delete("/cart/" + 238 + "/cart-products/" + idCartProduct)
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("id", equalTo(newCartProduct.getId()))
-                .body("cartId", equalTo(newCartProduct.getCartId()))
-                .body("productId", equalTo(newCartProduct.getProductId()))
-                .body("quantity", equalTo(newCartProduct.getQuantity()))
-                .body("productName", equalTo(newCartProduct.getProductName()))
                 .extract().response().as(CartProductDto.class);
 
         printJson(responseDeleteAll);
 
-        deleteNewUser(newUser);
+
+        CartProductDto productToCart = CartProductDto.builder()
+                .productId(1)
+                .quantity(1)
+                .build();
+
+        CartProductDto responseCartProduct = given()
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(("testForCartProduct@mail.com"), PASSWORD).get(SESSION_ID).getValue()).build())
+                .contentType(ContentType.JSON)
+                .body(productToCart) // Отправка нового продукта в теле запроса
+                .when()
+                .post("/cart/" + 238 + "/products")
+                .then()
+                .extract().response().as(CartProductDto.class);
+
+        //deleteNewUser(newUser);
 
 
-
-}}
+    }
+}

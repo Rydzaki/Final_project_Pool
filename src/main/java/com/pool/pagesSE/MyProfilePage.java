@@ -38,20 +38,26 @@ public class MyProfilePage extends BasePage {
     }
 
 
-    @FindBy(css = "#root > div > main > div > div > ul > li:nth-child(2) > div")
+    @FindBy(xpath = "//div[contains(text(), 'ForDelete')]")
     WebElement usersEmail;
-    @FindBy(css = "#root > div > main > div > div > ul > li:nth-child(2) > div > button:nth-child(2)")
+    @FindBy(xpath = "//div[contains(text(), 'ForDelete')]/button[text()='Удалить']")
     WebElement deleteButton;
 
-    public void deleteUser(String email) {
+    public void deleteUser(String name) {
         WebDriverWait wait = new WebDriverWait(driver, WAIT);
+        wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
+        click(deleteButton);
+        pause(500);
 
-        if (usersEmail.getText().contains(email)) {
+    }
+    @FindBy(xpath = "//div[contains(text(), 'RegistrationTest')]/button[text()='Удалить']")
+    WebElement deleteBtnAfterReristration;
 
-            wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
-            click(deleteButton);
-            System.out.println("Удален пользователь: " + email); //TODO
-        }
+    public void deleteUserAfterRegistration(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, WAIT);
+        wait.until(ExpectedConditions.elementToBeClickable(deleteBtnAfterReristration));
+        click(deleteBtnAfterReristration);
+        pause(500);
 
     }
 }

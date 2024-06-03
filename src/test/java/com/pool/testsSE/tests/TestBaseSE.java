@@ -96,7 +96,7 @@ public class TestBaseSE {
 
     public void registrationNewUser(String email) {
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillRegistrationForm("Anna", "Testova", email, VALID_PASSWORD, VALID_PASSWORD, "+79213334567");
+        registrationPage.fillRegistrationForm("ForDelete", "Testova", email, VALID_PASSWORD, VALID_PASSWORD, "+79213334567");
         new HomePage(driver).selectEnterBtn();
     }
 }
