@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class IdManager {
     private static final String FILE_NAME = "src/test/resources/currentId.txt";
-    private static final int INITIAL_ID = 76;
+    private static final int INITIAL_ID = 77;
 
     public static int readCurrentId() {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
