@@ -5,12 +5,25 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Paths;
 
 public class IdManager {
     private static final String FILE_NAME = "src/test/resources/currentId.txt";
-    private static final int INITIAL_ID = 81;
+    private static final int INITIAL_ID = readInitialId();
+
+    private static int readInitialId() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line = reader.readLine();
+            if (line != null && !line.isEmpty()) {
+                return Integer.parseInt(line);
+            } else {
+                writeCurrentId(INITIAL_ID);
+                return INITIAL_ID;
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            return INITIAL_ID; // Начальное значение по умолчанию
+        }
+    }
 
     public static int readCurrentId() {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
@@ -18,7 +31,6 @@ public class IdManager {
             if (line != null && !line.isEmpty()) {
                 return Integer.parseInt(line);
             } else {
-                writeCurrentId(INITIAL_ID);
                 return INITIAL_ID;
             }
         } catch (IOException | NumberFormatException e) {
