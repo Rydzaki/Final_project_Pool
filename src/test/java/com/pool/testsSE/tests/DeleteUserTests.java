@@ -11,7 +11,7 @@ public class DeleteUserTests extends TestBaseSE{
     @BeforeMethod
     public void precondition(){
         new HomePage(driver).selectEnterBtn();
-        registrationNewUser("testForDelete@gm.com");
+        registrationNewUser("deleteTest@gm.com");
         new HomePage(driver).selectEnterBtn();
         new LoginPage(driver).loginInvalidData(VALID_MAIL, VALID_PASSWORD);
         new LoginPage(driver).myProfilePage();

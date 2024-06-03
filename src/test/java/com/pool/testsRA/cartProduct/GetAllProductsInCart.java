@@ -3,6 +3,7 @@ package com.pool.testsRA.cartProduct;
 import com.pool.dto.cartProduct.CartProductDto;
 import com.pool.dto.orderProductDto.OrderCartProductDto;
 import com.pool.dto.product.NewProductDto;
+import com.pool.dto.user.NewUserDto;
 import com.pool.dto.user.UserDto;
 import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
@@ -21,16 +22,12 @@ public class GetAllProductsInCart extends TestBase {
     @Test
     public void getAllProductsInCartTest() {
 
-        UserDto newUser = registerNewUser("testForAllProductsinCart@mail.com");
-        NewProductDto newProduct = createNewProduct();
-        CartProductDto newCartProduct = createCartProduct(newUser, newProduct);
-
         List<OrderCartProductDto> orderProductDtoList = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(newUser.getEmail(), PASSWORD).get(SESSION_ID).getValue()).build())
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin("testForAllProductsinCart@mail.com", PASSWORD).get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/cart/" + newCartProduct.getCartId())
+                .get("/cart/" + 237)
                 .then()
                 .assertThat().statusCode(200)
                 .extract()
@@ -39,8 +36,6 @@ public class GetAllProductsInCart extends TestBase {
                 .getList(".", OrderCartProductDto.class);
 
         printJson(orderProductDtoList);
-        deleteNewUser(newUser);
-
-
+        
     }
 }

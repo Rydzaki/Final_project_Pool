@@ -15,31 +15,34 @@ import static io.restassured.RestAssured.given;
 
 public class UpdateProductsQuantity extends TestBase {
 
+    private static Integer idCartProduct = 44;
     @Test
     public void getProductByIdSuccessTest() {
 
-        UserDto newUser = registerNewUser("testForUpdateProductsinCart@mail.com");
-        NewProductDto newProduct = createNewProduct();
-        CartProductDto newCartProduct = createCartProduct(newUser, newProduct);
+//        //UserDto newUser = registerNewUser("testForUpdateProductsinCart@mail.com");
+//        //NewProductDto newProduct = createNewProduct();
+//        CartProductDto newCartProduct = createCartProduct(newUser, newProduct);
 
         OrderCartProductDto updateQuantity = OrderCartProductDto.builder()
-                .id(newProduct.getId())
+                .id(1)
                 .quantity(100)
                 .build();
 
         OrderCartProductDto responseProduct = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin().get(SESSION_ID).getValue()).build())
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin("testForUpdateProductsinCart@mail.com", PASSWORD).get(SESSION_ID).getValue()).build())
                 .body(updateQuantity)
                 .contentType(ContentType.JSON)
+                .log().all()
                 .when()
-                .put("/cart/" + newCartProduct.getCartId() +"/cart-products/"+ newCartProduct.getId())
+                .put("/cart/" + 240 +"/cart-products/"+44)
                 .then()
+                .log().all()
                 .assertThat()
                 .statusCode(200)
                 .extract().response().as(OrderCartProductDto.class);
 
         printJson(responseProduct);
-        deleteNewUser(newUser);
+
     }
 }
 
