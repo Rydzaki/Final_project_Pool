@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class DeleteAllInCart extends TestBase {
 
-    private static Integer idCartProduct = 54;//TODO
+    private static Integer idCartProduct = 55;//TODO
 
     @AfterMethod
     public void updateIdCartProduct() {
