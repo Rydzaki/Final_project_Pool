@@ -1,10 +1,7 @@
 package com.pool.testsRA.cartProduct;
 
 import com.pool.dto.cartProduct.CartProductDto;
-import com.pool.dto.orderProductDto.OrderCartProductDto;
-import com.pool.dto.product.NewProductDto;
-import com.pool.dto.product.ProductDto;
-import com.pool.dto.user.UserDto;
+import com.pool.dto.cartProduct.IdManager;
 import com.pool.testsRA.TestBase;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
@@ -12,26 +9,49 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 public class DeleteAllInCart extends TestBase {
 
-    private static Integer idCartProduct = 55;//TODO
+    private static final int CART_ID = 238;
+    private static List<Integer> idCP = Collections.synchronizedList(new ArrayList<>()); // Thread-safe list
+
+    @BeforeMethod
+    public void setupCartProductIdList() {
+        if (idCP.isEmpty()) {
+            int currentId = IdManager.readCurrentId();
+            idCP.add(currentId);
+        }
+    }
 
     @AfterMethod
     public void updateIdCartProduct() {
-        idCartProduct += 1;
+        synchronized (idCP) {
+            int lastValue = idCP.get(idCP.size() - 1);
+            int newValue = lastValue + 1;
+            idCP.add(newValue);
+            IdManager.writeCurrentId(newValue); // Сохранение нового значения в файл
+        }
+        System.out.println("Updated ID list: " + idCP);
     }
 
-    @Test()
+    @Test
     public void testDeleteAllInCart() {
+        int currentId;
+
+        synchronized (idCP) {
+            currentId = idCP.get(idCP.size() - 1);
+        }
 
         CartProductDto responseDeleteAll = given()
                 .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin("testForCartProduct@mail.com", PASSWORD).get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
                 .when()
-                .delete("/cart/" + 238 + "/cart-products/" + idCartProduct)
+                .delete("/cart/" + CART_ID + "/cart-products/" + currentId)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -39,23 +59,18 @@ public class DeleteAllInCart extends TestBase {
 
         printJson(responseDeleteAll);
 
-
         CartProductDto productToCart = CartProductDto.builder()
                 .productId(1)
                 .quantity(1)
                 .build();
 
         CartProductDto responseCartProduct = given()
-                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin(("testForCartProduct@mail.com"), PASSWORD).get(SESSION_ID).getValue()).build())
+                .cookie(new Cookie.Builder(SESSION_ID, getCookiesForLogin("testForCartProduct@mail.com", PASSWORD).get(SESSION_ID).getValue()).build())
                 .contentType(ContentType.JSON)
-                .body(productToCart) // Отправка нового продукта в теле запроса
+                .body(productToCart)
                 .when()
-                .post("/cart/" + 238 + "/products")
+                .post("/cart/" + CART_ID + "/products")
                 .then()
                 .extract().response().as(CartProductDto.class);
-
-        //deleteNewUser(newUser);
-
-
     }
 }
