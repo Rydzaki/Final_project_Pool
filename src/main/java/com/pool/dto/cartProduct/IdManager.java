@@ -5,10 +5,12 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Paths;
 
 public class IdManager {
-    private static final String FILE_NAME = "currentId.txt";
-    private static final int INITIAL_ID = 67;
+    private static final String FILE_NAME = "src/test/resources/currentId.txt";
+    private static final int INITIAL_ID = 72;
 
     public static int readCurrentId() {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
