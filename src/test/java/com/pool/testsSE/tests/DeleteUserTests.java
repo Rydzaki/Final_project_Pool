@@ -6,10 +6,10 @@ import com.pool.pagesSE.MyProfilePage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class DeleteUserTests extends TestBaseSE{
+public class DeleteUserTests extends TestBaseSE {
 
     @BeforeMethod
-    public void precondition(){
+    public void precondition() {
         new HomePage(driver).selectEnterBtn();
         registrationNewUser("deleteTest@gm.com");
         new HomePage(driver).selectEnterBtn();
@@ -18,7 +18,7 @@ public class DeleteUserTests extends TestBaseSE{
     }
 
     @Test
-    public void adminDeleted(){
+    public void adminDeleted() {
         new MyProfilePage(driver).deleteUser("testForDelete@gm.com");
     }
 
