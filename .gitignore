@@ -12,7 +12,9 @@ settings.gradle
 
 *.log
 *.png
-*.env
+
+config.properties
+
 
 
 
