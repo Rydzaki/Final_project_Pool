@@ -13,4 +13,8 @@ settings.gradle
 *.log
 *.png
 
+config.properties
+
+
+
 

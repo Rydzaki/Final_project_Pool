@@ -1,6 +1,5 @@
 package com.pool.testsSE.tests;
 
-
 import com.google.common.io.Files;
 import com.pool.pagesSE.HomePage;
 import com.pool.pagesSE.RegistrationPage;
@@ -16,24 +15,53 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.Arrays;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public class TestBaseSE {
 
-    public static final String VALID_MAIL = "ushakov_test@mail.com";
-    public static final String INVALID_MAIL = "@mail.com";
-    public static final String VALID_PASSWORD = "Pass12345!";
-    public static final String INVALID_PASSWORD = "Pass123455";
+    protected static String login;
+    protected static String password;
 
+    static {
+        Properties props = new Properties();
+        try (FileInputStream input = new FileInputStream("/config.properties")) {
+            props.load(input);
+            login = props.getProperty("LOGIN");
+            password = props.getProperty("PASSWORD");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static final String CONFIG_FILE = "config.properties";
+    private static final Map<String, String> CONFIG_VARS = new HashMap<>();
+
+    static {
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(CONFIG_FILE));
+            CONFIG_VARS.put("LOGIN", properties.getProperty("LOGIN"));
+            CONFIG_VARS.put("PASSWORD", properties.getProperty("PASSWORD"));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load configuration file", e);
+        }
+    }
+
+    public static final String VALID_MAIL = CONFIG_VARS.getOrDefault("LOGIN", null);
+    public static final String INVALID_MAIL = "@mail.com";
+    public static final String VALID_PASSWORD = CONFIG_VARS.getOrDefault("PASSWORD", null);
+    public static final String INVALID_PASSWORD = "Pass123455";
 
     WebDriver driver;
 
     Logger logger = LoggerFactory.getLogger(TestBaseSE.class);
-
 
     @BeforeMethod
     @Parameters("browser")
@@ -51,13 +79,12 @@ public class TestBaseSE {
             default:
                 throw new IllegalArgumentException("Browser not supported: " + browser);
         }
-        //driver.get("http://localhost:5173"); //TODO
-        driver.get("https://cohort-34-pool-app-unpfj.ondigitalocean.app/#/"); //TODO
+        driver.get("https://cohort-34-pool-app-unpfj.ondigitalocean.app/#/");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
-    @AfterMethod(enabled = true)
+    @AfterMethod(enabled = false)
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -91,7 +118,6 @@ public class TestBaseSE {
             throw new RuntimeException(e);
         }
         return screenshot.getAbsolutePath();
-
     }
 
     public void registrationNewUser(String email) {

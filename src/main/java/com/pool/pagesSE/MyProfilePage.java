@@ -47,7 +47,6 @@ public class MyProfilePage extends BasePage {
         WebDriverWait wait = new WebDriverWait(driver, WAIT);
         wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
         click(deleteButton);
-        pause(500);
 
     }
     @FindBy(xpath = "//div[contains(text(), 'RegistrationTest')]/button[text()='Удалить']")
